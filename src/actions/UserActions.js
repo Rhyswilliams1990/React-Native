@@ -35,12 +35,6 @@ export const clearScreen = () => {
     };
 };
 
-export const newUserIsEmailValid = (email, emailRepeat) => {
-    return {
-
-    };
-}
-
 export const createUser = ({ email, password, username }) => {
     return (dispatch) => {
         dispatch({ type: NEWU_CREATE_USER });
