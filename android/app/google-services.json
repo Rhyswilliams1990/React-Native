@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "236410209421",
+    "firebase_url": "https://thelocallink-afe92.firebaseio.com",
+    "project_id": "thelocallink-afe92",
+    "storage_bucket": "thelocallink-afe92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236410209421:android:4a3f24f912e4860d",
+        "android_client_info": {
+          "package_name": "com.rmwsolutions.thelocallink"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236410209421-lmnt843f8qfjpsijtbgoddto08pc32nj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf1bvyE0OxD37ttOZUkPmes639_r8rb1A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

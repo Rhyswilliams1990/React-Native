@@ -1,0 +1,37 @@
+{
+  "name": "TheLocalLink",
+  "version": "5.1.0",
+  "private": true,
+  "devDependencies": {
+    "babel-jest": "23.6.0",
+    "fs-extra": "^6.0.1",
+    "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.49.2",
+    "react-test-renderer": "16.7.0",
+    "replace-in-file": "^3.4.2"
+  },
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios --simulator=\"iPhone X\"",
+    "apk": "cd android && ./gradlew assembleRelease",
+    "rename": "node ./bin/rename.js",
+    "start": "react-native start",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "native-base": "^2.10.0",
+    "react": "16.6.3",
+    "react-native": "0.58.0-rc.2",
+    "react-native-firebase": "^5.2.0",
+    "react-native-router-flux": "^4.0.6",
+    "react-native-vector-icons": "^6.1.0",
+    "react-redux": "^6.0.0",
+    "react-timer-mixin": "^0.13.4",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
+  }
+}
