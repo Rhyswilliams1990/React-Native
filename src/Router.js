@@ -5,6 +5,8 @@ import UserCreate from './components/authComponents/UserCreate';
 import Dashboard from './components/dashboardComponents/Dashboard';
 import Landing from './components/Landing';
 import SellerLocation from './components/newListingComponents/SellerLocation';
+import AddressList from './components/newListingComponents/Address/AddressList';
+import AddressForm from './components/newListingComponents/Address/AddressForm';
 
 const RouterComponent = () => {
     return (
@@ -33,6 +35,14 @@ const RouterComponent = () => {
                     <Scene 
                         key="sellerLocation"
                         component={SellerLocation}                        
+                    />
+                    <Scene 
+                        key="addressList"
+                        component={AddressList}                        
+                    />
+                    <Scene 
+                        key="addressForm"
+                        component={AddressForm}                        
                     />
                 </Scene>
                 <Scene key="existingListing">
