@@ -11,7 +11,8 @@ class LoginForm extends Component {
     componentDidMount() {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                Actions.main({type:'reset'});
+                // TODO: Needs to check if an existing listing exists.
+                Actions.existingListing({ type: 'reset' });
             }
         });
     }

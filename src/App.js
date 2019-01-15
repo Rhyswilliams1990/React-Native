@@ -6,13 +6,15 @@ import reducers from './reducers';
 import Router from './Router';
 
 import { StyleProvider } from 'native-base';   
-import getTheme from '../native-base-theme/components';
+
+import getTheme from './../native-base-theme/components';
+import commonColor from './../native-base-theme/variables/commonColor';
 
 class App extends Component {
     render() {
         const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
         return (
-            <StyleProvider style={getTheme()}>
+            <StyleProvider style={getTheme(commonColor)}>
                 <Provider store={store}>
                     <Router />
                 </Provider>

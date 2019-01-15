@@ -2,7 +2,9 @@ import React from 'react';
 import { Scene, Router } from 'react-native-router-flux';
 import LoginForm from './components/authComponents/LoginForm';
 import UserCreate from './components/authComponents/UserCreate';
-import HomeForm from './components/homeComponents/HomeForm';
+import Dashboard from './components/dashboardComponents/Dashboard';
+import Landing from './components/Landing';
+//import SellerLocation from './components/newListingComponents/SellerLocation';
 
 const RouterComponent = () => {
     return (
@@ -19,15 +21,29 @@ const RouterComponent = () => {
                     />
                 </Scene>
                 
-                <Scene key="main">
+                <Scene 
+                    initial
+                    key="newListing"
+                >
+                    <Scene 
+                        key="landing"
+                        component={Landing}
+                        initial
+                    />
+                    {/* <Scene 
+                        key="location"
+                        component={SellerLocation}                        
+                    /> */}
+                </Scene>
+                <Scene key="existingListing">
                     <Scene
-                        key="profile"
-                        component={HomeForm}
+                        key="dashboard"
+                        component={Dashboard}
                     />
                 </Scene>
             </Scene>
         </Router>
     );
-}
+};
 
 export default RouterComponent;
