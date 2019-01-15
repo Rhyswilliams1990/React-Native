@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Dimensions, ImageBackground } from 'react-native';
-import { Button, Text, Container, Content, StyleProvider } from 'native-base';
+import { Button, Text, Container, Content } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import getTheme from '../../native-base-theme/components';
-import material from '../../native-base-theme/variables/commonColor';
 
 
 const image = require('../../assets/images/background.jpg');
@@ -25,30 +23,28 @@ class Landing extends Component {
             source={image} 
             style={{ width, height }}
             >
-                <StyleProvider style={getTheme(material)}>
-                    <Container style={{ backgroundColor: 'transparent' }}>
-                        <Content contentContainerStyle={contentStyle}>
-                            <Button 
-                                primary 
-                                style={buttonStyle}
-                                onPress={this.onSellPress.bind(this)}
-                            >
-                                <Text>Sell with Us!</Text>
-                            </Button>
-                            <Button light style={buttonStyle}>
-                                <Text style={lightTextStyle}>About Us</Text>
-                            </Button>
-                            <Button 
-                                light 
-                                style={buttonStyle} 
-                                onPress={this.onLoginPress.bind(this)}
-                                disabled={false}
-                            >
-                                <Text style={lightTextStyle}>Login</Text>
-                            </Button>
-                        </Content>
-                    </Container>
-                </StyleProvider>
+                <Container style={{ backgroundColor: 'transparent' }}>
+                    <Content contentContainerStyle={contentStyle}>
+                        <Button 
+                            primary 
+                            style={buttonStyle}
+                            onPress={this.onSellPress.bind(this)}
+                        >
+                            <Text>Sell with Us!</Text>
+                        </Button>
+                        <Button light style={buttonStyle}>
+                            <Text style={lightTextStyle}>About Us</Text>
+                        </Button>
+                        <Button 
+                            light 
+                            style={buttonStyle} 
+                            onPress={this.onLoginPress.bind(this)}
+                            disabled={false}
+                        >
+                            <Text style={lightTextStyle}>Login</Text>
+                        </Button>
+                    </Content>
+                </Container>
             </ImageBackground>
         );
     }

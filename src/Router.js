@@ -4,7 +4,7 @@ import LoginForm from './components/authComponents/LoginForm';
 import UserCreate from './components/authComponents/UserCreate';
 import Dashboard from './components/dashboardComponents/Dashboard';
 import Landing from './components/Landing';
-import SellerLocation from './components/newListingComponents/SellerLocation';
+//import SellerLocation from './components/newListingComponents/SellerLocation';
 
 const RouterComponent = () => {
     return (
@@ -30,10 +30,10 @@ const RouterComponent = () => {
                         component={Landing}
                         initial
                     />
-                    <Scene 
+                    {/* <Scene 
                         key="location"
                         component={SellerLocation}                        
-                    />
+                    /> */}
                 </Scene>
                 <Scene key="existingListing">
                     <Scene
