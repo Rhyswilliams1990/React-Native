@@ -7,6 +7,7 @@ import Landing from './components/Landing';
 import SellerLocation from './components/newListingComponents/SellerLocation';
 import AddressList from './components/newListingComponents/Address/AddressList';
 import AddressForm from './components/newListingComponents/Address/AddressForm';
+import PropertyDetails from './components/newListingComponents/PropertyDetails';
 
 const RouterComponent = () => {
     return (
@@ -30,7 +31,7 @@ const RouterComponent = () => {
                     <Scene 
                         key="landing"
                         component={Landing}
-                        initial
+                        initial                        
                     />
                     <Scene 
                         key="sellerLocation"
@@ -43,6 +44,10 @@ const RouterComponent = () => {
                     <Scene 
                         key="addressForm"
                         component={AddressForm}                        
+                    />
+                    <Scene
+                        key="propertyDetails"
+                        component={PropertyDetails}
                     />
                 </Scene>
                 <Scene key="existingListing">
