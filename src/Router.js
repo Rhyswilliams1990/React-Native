@@ -10,6 +10,7 @@ import AddressForm from './components/newListingComponents/Address/AddressForm';
 import PropertyDetails from './components/newListingComponents/PropertyDetails';
 import Confirmation from './components/newListingComponents/Confirmation';
 import Evaluation from './components/newListingComponents/Evaluation';
+import ContactPreferences from './components/newListingComponents/ContactPreferences';
 
 const RouterComponent = () => {
     return (
@@ -33,7 +34,7 @@ const RouterComponent = () => {
                     <Scene 
                         key="landing"
                         component={Landing}
-                                                
+                        initial         
                     />
                     <Scene 
                         key="sellerLocation"
@@ -53,8 +54,12 @@ const RouterComponent = () => {
                     />
                     <Scene
                         key="evaluation"
-                        component={Evaluation} initial
-                    />                    
+                        component={Evaluation} 
+                    />
+                    <Scene
+                        key="contactPreferences"
+                        component={ContactPreferences} 
+                    />                        
                     <Scene
                         key="confirmation"
                         component={Confirmation} 
