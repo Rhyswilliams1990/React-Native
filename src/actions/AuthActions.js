@@ -1,5 +1,6 @@
 import firebase from 'react-native-firebase';
 import { Toast } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 import {
     EMAIL_CHANGED, 
     PASSWORD_CHANGED,
@@ -7,7 +8,6 @@ import {
     LOGIN_USER,
     RESET_FORM_AFTER_ERROR
 } from './types';
-import { Actions } from 'react-native-router-flux';
 
 export const emailChanged = (text) => {
     return {
@@ -34,7 +34,7 @@ export const loginUser = ({ email, password }) => {
 };
 
 const getErrorMessage = (errorCode) => {
-    switch(errorCode) {
+    switch (errorCode) {
         case 'auth/wrong-password':
             return 'Invalid login credentials.';
         case 'auth/invalid-email':
@@ -42,27 +42,25 @@ const getErrorMessage = (errorCode) => {
         case 'auth/user-not-found':
             return 'Invalid login credentials.';
         case 'auth/user-disabled':
-            return 'User Account is locked.'
+            return 'User Account is locked.';
         default:
             return 'Something went wrong';
-    };
+    }
 };
 
 const loginUserFail = (dispatch, errorCode) => {
-
     const message = getErrorMessage(errorCode); 
 
     Toast.show({
         text: message,
-        textStyle: { color: "white" },
-        buttonText: "Okay",
+        textStyle: { color: 'white' },
+        buttonText: 'Okay',
         duration: 5000
     });
 
     dispatch({
         type: RESET_FORM_AFTER_ERROR
     });
-
 };
 
 const loginUserSuccess = (dispatch, user) => {
@@ -71,5 +69,5 @@ const loginUserSuccess = (dispatch, user) => {
         payload: user
     });
     
-    Actions.main({type:'reset'});
+    Actions.main({ type: 'reset' });
 };
