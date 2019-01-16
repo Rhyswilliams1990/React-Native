@@ -21,10 +21,6 @@ class AddressItem extends Component {
 }
 
 const styles = {
-  textContainerStyle: {
-      flexDirection: 'column',
-      justifyContent: 'space-around'
-  },
   textStyle: {
     padding: 2,
     fontSize: 10
