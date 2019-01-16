@@ -12,6 +12,7 @@ import {
     CheckBox,
     Body, 
     ListItem } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
 class ContactPreferences extends Component {
     render() {
@@ -67,7 +68,7 @@ class ContactPreferences extends Component {
                             </Body>
                         </ListItem>
                     </View>
-                    <Button full onPress={() => {}}>
+                    <Button full onPress={() => { Actions.userInfo(); }}>
                         <Text>Continue</Text>    
                     </Button> 
                 </Form>
