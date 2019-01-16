@@ -77,7 +77,9 @@ class PropertyDetails extends Component {
                             <Input keyboardType="numeric" placeholder='Reception Rooms' />
                         </Item>
                     </Form>                    
-                    <Button full onPress={() => { }}><Text>Continue</Text></Button>    
+                    <Button full onPress={() => { Actions.evaluation(); }}>
+                        <Text>Continue</Text>
+                    </Button>    
                 </Content>
             </Container>
         );
