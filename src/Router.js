@@ -8,6 +8,8 @@ import SellerLocation from './components/newListingComponents/SellerLocation';
 import AddressList from './components/newListingComponents/Address/AddressList';
 import AddressForm from './components/newListingComponents/Address/AddressForm';
 import PropertyDetails from './components/newListingComponents/PropertyDetails';
+import Confirmation from './components/newListingComponents/Confirmation';
+import Evaluation from './components/newListingComponents/Evaluation';
 
 const RouterComponent = () => {
     return (
@@ -31,7 +33,7 @@ const RouterComponent = () => {
                     <Scene 
                         key="landing"
                         component={Landing}
-                        initial                        
+                                                
                     />
                     <Scene 
                         key="sellerLocation"
@@ -48,6 +50,14 @@ const RouterComponent = () => {
                     <Scene
                         key="propertyDetails"
                         component={PropertyDetails}
+                    />
+                    <Scene
+                        key="evaluation"
+                        component={Evaluation} initial
+                    />                    
+                    <Scene
+                        key="confirmation"
+                        component={Confirmation} 
                     />
                 </Scene>
                 <Scene key="existingListing">
