@@ -60,7 +60,7 @@ class SellerLocation extends Component {
         // TODO: Add animation over the map to as a 'loading', like a radar        
          
         if (this.state.showAgents) {
-            //Actions.addressConfirmation();
+            Actions.addressList();
         } else {
             this.setState({ showAgents: true });
         }        
@@ -149,7 +149,9 @@ class SellerLocation extends Component {
                             </MapView>
                         </View>
                     <View style={buttonViewStyle}>
-                        <Button onPress={this.onContinuePress.bind(this)}><Text>Continue</Text></Button>
+                        <Button onPress={this.onContinuePress.bind(this)}>
+                            <Text>Continue</Text>
+                        </Button>
                     </View>
                 </Content>
             </Container>            
