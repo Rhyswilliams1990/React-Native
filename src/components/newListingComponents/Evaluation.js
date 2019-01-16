@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
 class Confirmation extends Component {
     render() {
@@ -12,7 +13,7 @@ class Confirmation extends Component {
                     <Text style={styles.smallPrint}>*this is an estimate, a real estimate will be performed by a trained professional</Text>
                 </View>
                 <View style={{ alignSelf: 'center', padding: 20 }}>
-                    <Button onPress={() => {}}>
+                    <Button full onPress={() => { Actions.contactPreferences(); }}>
                         <Text>Continue</Text>    
                     </Button> 
                 </View>
