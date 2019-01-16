@@ -35,7 +35,7 @@ const RouterComponent = () => {
                     <Scene 
                         key="landing"
                         component={Landing}
-                        
+                        initial
                     />
                     <Scene 
                         key="sellerLocation"
@@ -67,7 +67,7 @@ const RouterComponent = () => {
                     />                        
                     <Scene
                         key="confirmation"
-                        component={Confirmation}        initial                  
+                        component={Confirmation}                          
                     />
                 </Scene>
                 <Scene key="existingListing">
