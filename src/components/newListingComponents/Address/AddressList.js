@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
-import { Container, Content, Card, Header, Icon, Right, Title, Body } from 'native-base';
+import { Container, Content, Card, Header, Icon, Right, Title, Body, Left } from 'native-base';
 import AddressItem from './AddressItem';
 
 class AddressList extends Component {
@@ -45,6 +45,9 @@ class AddressList extends Component {
     return (
       <Container>
         <Header>
+          <Left>
+              <Icon onPress={() => Actions.pop()} name='arrow-back' />
+          </Left>
           <Body>
             <Title>Select Address</Title>
           </Body>

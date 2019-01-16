@@ -22,7 +22,7 @@ class AddressForm extends Component {
       <Container>
         <Header>
           <Left>
-            <Icon onPress={() => Actions.addressList()} name='arrow-back' />
+            <Icon onPress={() => Actions.pop()} name='arrow-back' />
           </Left>
           <Body>
             <Text>Edit Address</Text>
