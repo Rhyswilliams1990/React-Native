@@ -1,0 +1,52 @@
+{
+  "agent1": {
+    "type": "agent",
+    "shortDescription": "Very Clever",
+    "rating": 4.5,
+    "companyRef": "01324654",
+    "contactNo": "0754546542",
+    "coordinates": {
+      "latitude": 51.542237,
+      "longitude": -0.0822
+    },
+    "languages": [
+      "english"
+    ],
+    "email": "some@email.com",
+    "name": "Gareth Williams",
+    "status": "confirmed",
+    "avatar": "someurl"
+  },
+  "agent2": {
+    "name": "Rhys Williams",
+    "type": "agent",
+    "shortDescription": "Not Very Clever",
+    "rating": 3,
+    "avatar": "someurl",
+    "languages": [
+      "english",
+      "spanish",
+      "drool"
+    ],
+    "coordinates": {
+      "latitude": 51.536237,
+      "longitude": -0.1102
+    }
+  },
+  "agent3": {
+    "name": "Julie Williams",
+    "type": "agent",
+    "shortDescription": "Dumb and dumbers mumma",
+    "rating": 5,
+    "avatar": "someurl",
+    "languages": [
+      "english",
+      "spanish",
+      "drool"
+    ],
+    "coordinates": {
+      "latitude": 51.516237,
+      "longitude": -0.1310
+    }
+  }
+}
