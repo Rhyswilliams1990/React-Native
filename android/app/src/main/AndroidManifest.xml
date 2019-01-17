@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.rmwsolutions.thelocallink"
+    package="com.smartssolutions.onlineagency"
     android:versionCode="1"
     android:versionName="1.0">
 

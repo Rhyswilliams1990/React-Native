@@ -1,4 +1,4 @@
-package com.rmwsolutions.thelocallink;
+package com.smartssolutions.onlineagency;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
