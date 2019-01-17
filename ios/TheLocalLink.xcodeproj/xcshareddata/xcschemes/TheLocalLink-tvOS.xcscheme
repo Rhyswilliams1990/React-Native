@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "TheLocalLink-tvOS.app"
-               BlueprintName = "TheLocalLink-tvOS"
-               ReferencedContainer = "container:TheLocalLink.xcodeproj">
+               BuildableName = "OnlineAgency-tvOS.app"
+               BlueprintName = "OnlineAgency-tvOS"
+               ReferencedContainer = "container:OnlineAgency.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "TheLocalLink-tvOSTests.xctest"
-               BlueprintName = "TheLocalLink-tvOSTests"
-               ReferencedContainer = "container:TheLocalLink.xcodeproj">
+               BuildableName = "OnlineAgency-tvOSTests.xctest"
+               BlueprintName = "OnlineAgency-tvOSTests"
+               ReferencedContainer = "container:OnlineAgency.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "TheLocalLink-tvOSTests.xctest"
-               BlueprintName = "TheLocalLink-tvOSTests"
-               ReferencedContainer = "container:TheLocalLink.xcodeproj">
+               BuildableName = "OnlineAgency-tvOSTests.xctest"
+               BlueprintName = "OnlineAgency-tvOSTests"
+               ReferencedContainer = "container:OnlineAgency.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "TheLocalLink-tvOS.app"
-            BlueprintName = "TheLocalLink-tvOS"
-            ReferencedContainer = "container:TheLocalLink.xcodeproj">
+            BuildableName = "OnlineAgency-tvOS.app"
+            BlueprintName = "OnlineAgency-tvOS"
+            ReferencedContainer = "container:OnlineAgency.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "TheLocalLink-tvOS.app"
-            BlueprintName = "TheLocalLink-tvOS"
-            ReferencedContainer = "container:TheLocalLink.xcodeproj">
+            BuildableName = "OnlineAgency-tvOS.app"
+            BlueprintName = "OnlineAgency-tvOS"
+            ReferencedContainer = "container:OnlineAgency.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "TheLocalLink-tvOS.app"
-            BlueprintName = "TheLocalLink-tvOS"
-            ReferencedContainer = "container:TheLocalLink.xcodeproj">
+            BuildableName = "OnlineAgency-tvOS.app"
+            BlueprintName = "OnlineAgency-tvOS"
+            ReferencedContainer = "container:OnlineAgency.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
