@@ -1,27 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { 
+    Root, 
+    Spinner, 
+    Button, 
+    Text, 
+    Container, 
+    Header, 
+    Content, 
+    Form, 
+    Item, 
+    Input, 
+    Label, 
+    Title, 
+    Body, 
+    Icon 
+} from 'native-base';
 import { userDetailUpdate, createUser, clearScreen } from '../../actions';
-import { Root, Spinner, Button, Text, Container, Header, Content, Form, Item, Input, Label, Title, Body, Icon } from 'native-base';
-
 
 class LoginForm extends Component {
-
     state = { passwordIcon: '', passwordColor: '', emailIcon: '', emailColor: '' };
-    _isMounted = false;
       
     componentWillReceiveProps(nextProps) {
         if (nextProps.email === '') {
             this.setState({ emailIcon: '', emailColor: '' });
-        } else if(nextProps.emailValid) {
+        } else if (nextProps.emailValid) {
             this.setState({ emailIcon: 'checkmark-circle', emailColor: 'green' });
-        } else if(!nextProps.emailValid) {
+        } else if (!nextProps.emailValid) {
             this.setState({ emailIcon: 'close-circle', emailColor: 'red' });
         }  
         
         if (nextProps.password && nextProps.passwordRepeat) {
-            if ((nextProps.password.length < 6) || (nextProps.password != nextProps.passwordRepeat)) {
+            if ((nextProps.password.length < 6) 
+                    || (nextProps.password !== nextProps.passwordRepeat)) {
                 this.setState({ passwordIcon: 'close-circle', passwordColor: 'red' });
             } else {
                 this.setState({ passwordIcon: 'checkmark-circle', passwordColor: 'green' });
@@ -31,6 +43,14 @@ class LoginForm extends Component {
         }      
     }
 
+    onCreateButtonPress() {
+        const { email, password, username } = this.props;
+
+        this.props.createUser({ email, password, username });
+    }
+
+    _isMounted = false;
+
     renderButton() {
         if (this.props.loading) {
             return <Spinner color='red' />;
@@ -38,16 +58,19 @@ class LoginForm extends Component {
 
         return (
             <View>
-                <Button block 
-                        primary 
-                        onPress={this.onCreateButtonPress.bind(this)}
-                        disabled={
-                            !this.props.email || 
-                            !this.props.password || 
-                            !this.props.passwordRepeat || 
-                            !this.props.username ||
-                            this.state.passwordColor==='red' ||
-                            !this.props.emailValid}>
+                <Button 
+                    block 
+                    primary 
+                    onPress={this.onCreateButtonPress.bind(this)}
+                    disabled={
+                        !this.props.email || 
+                        !this.props.password || 
+                        !this.props.passwordRepeat || 
+                        !this.props.username ||
+                        this.state.passwordColor === 'red' ||
+                        !this.props.emailValid
+                    }
+                >
                     <Text>Create</Text>
                 </Button>
                 <View style={{ paddingTop: 5 }}>
@@ -59,11 +82,6 @@ class LoginForm extends Component {
         );
     }
 
-    onCreateButtonPress() {
-        const { email, password, username } = this.props;
-
-        this.props.createUser({ email, password, username });
-    }
 
     render() {
         return (
@@ -80,7 +98,8 @@ class LoginForm extends Component {
                             <Item floatingLabel>
                                 <Label>Display Name</Label>
                                 <Input 
-                                    onChangeText={value => this.props.userDetailUpdate( { prop: "username", value } )}
+                                    onChangeText={value => 
+                                        this.props.userDetailUpdate({ prop: 'username', value })}
                                     value={this.props.username}
                                 />
                             </Item>
@@ -88,16 +107,21 @@ class LoginForm extends Component {
                             <Item floatingLabel>
                                 <Label>E-Mail</Label>
                                 <Input 
-                                    onChangeText={value => this.props.userDetailUpdate( { prop: "email", value } )}
+                                    onChangeText={value => 
+                                        this.props.userDetailUpdate({ prop: 'email', value })}
                                     value={this.props.email}
                                 />
-                                 <Icon name={this.state.emailIcon} style={{ color: this.state.emailColor }} />
+                                <Icon 
+                                    name={this.state.emailIcon} 
+                                    style={{ color: this.state.emailColor }} 
+                                />
                             </Item>
                             
                             <Item floatingLabel>
                                 <Label>Password</Label>
                                 <Input 
-                                    onChangeText={value => this.props.userDetailUpdate( { prop: "password", value } )}
+                                    onChangeText={value => 
+                                        this.props.userDetailUpdate({ prop: 'password', value })}
                                     value={this.props.password} 
                                     secureTextEntry 
                                 />
@@ -106,14 +130,32 @@ class LoginForm extends Component {
                             <Item floatingLabel>
                                 <Label>Confirm</Label>
                                 <Input 
-                                    onChangeText={value => this.props.userDetailUpdate( { prop: "passwordRepeat", value } )}
+                                    onChangeText={value => 
+                                        this.props.userDetailUpdate({ 
+                                            prop: 'passwordRepeat', value 
+                                        })
+                                    }
                                     value={this.props.passwordRepeat} 
                                     secureTextEntry 
                                 />
-                                <Icon name={this.state.passwordIcon} style={{ color: this.state.passwordColor }} />
+                                <Icon 
+                                    name={this.state.passwordIcon} 
+                                    style={{ color: this.state.passwordColor }} 
+                                />
                             </Item>
-                            <View style={{ flex: 1, paddingTop: 10, justifyContent: 'center', alignItems: 'center'}}>
-                            <Text style={{color:'grey', fontSize: 10}}>Passwords must be at least 6 characters.</Text>
+                            <View 
+                                style={{ 
+                                    flex: 1, 
+                                    paddingTop: 10, 
+                                    justifyContent: 'center', 
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <Text 
+                                    style={{ color: 'grey', fontSize: 10 }}
+                                >  
+                                    Passwords must be at least 6 characters.
+                                </Text>
                             </View>
                         </Form>
                         

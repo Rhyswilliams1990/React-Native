@@ -3,8 +3,23 @@ import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { View, BackHandler } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { 
+    Root,
+    Spinner, 
+    Button, 
+    Text, 
+    Container, 
+    Header, 
+    Content, 
+    Form, 
+    Item, 
+    Input, 
+    Label, 
+    Title,
+    Body 
+} from 'native-base';
 import { emailChanged, passwordChanged, loginUser } from '../../actions';
-import {  Root, Spinner, Button, Text, Container, Header, Content, Form, Item, Input, Label, Title, Body } from 'native-base';
+
 
 class LoginForm extends Component {
 
@@ -46,7 +61,8 @@ class LoginForm extends Component {
                     block 
                     primary 
                     onPress={this.onLoginButtonPress.bind(this)}
-                    disabled={!this.props.email || !this.props.password}>
+                    disabled={!this.props.email || !this.props.password}
+                >
                     <Text>Login</Text>
                 </Button>
 
@@ -57,19 +73,18 @@ class LoginForm extends Component {
                 </View>
 
                 <View style={{ paddingBottom: 5, paddingTop: 10 }}>
-                    <Button transparent info small onPress={this.onCreateAccountButtonPress.bind(this)}>
+                    <Button 
+                        transparent 
+                        info 
+                        small 
+                        onPress={this.onCreateAccountButtonPress.bind(this)}
+                    >
                         <Text>Not a member? Create a account.</Text>
                     </Button>
                 </View>
                 <Button transparent info small>
                     <Text>Forgotten your password?</Text>
                 </Button>
-                {/* <Button transparent info small onPress={this.onLoginAsGazButtonPress.bind(this)}>
-                    <Text>Login as Gaz</Text>
-                </Button>
-                <Button transparent info small onPress={this.onLoginAsRhysButtonPress.bind(this)}>
-                    <Text>Login as Rhys</Text>
-                </Button> */}
             </View>
         );
     }

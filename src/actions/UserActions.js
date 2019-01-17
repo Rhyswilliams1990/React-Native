@@ -1,5 +1,7 @@
+/* eslint-disable no-useless-escape */
 import firebase from 'react-native-firebase';
 import { Toast } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 import {
     USER_DETAIL_UPDATE,
     NEWU_CLEAR_EMAILS,
@@ -8,13 +10,12 @@ import {
     NEWU_CREATE_USER,
     NEWU_CLEAR_SCREEN
 } from '../actions/types';
-import { Actions } from 'react-native-router-flux';
 
 export const userDetailUpdate = ({ prop, value }) => {
     return (dispatch) => {
-
         if (prop === 'email') {
-            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            // eslint-disable-next-line max-len
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             dispatch({
                 type: USER_DETAIL_UPDATE,
                 payload: { prop: 'emailValid', value: re.test(value) }
@@ -25,7 +26,7 @@ export const userDetailUpdate = ({ prop, value }) => {
             type: USER_DETAIL_UPDATE,
             payload: { prop, value }
         });
-    }
+    };
 };
 
 export const clearScreen = () => {
@@ -47,25 +48,10 @@ export const createUser = ({ email, password, username }) => {
     };
 };
 
-const getErrorMessage = (errorCode) => {
-    switch(errorCode) {
-        case 'auth/wrong-password':
-            return 'Invalid login credentials.';
-        case 'auth/invalid-email':
-            return 'Invalid login credentials.';
-        case 'auth/user-not-found':
-            return 'Invalid login credentials.';
-        case 'auth/user-disabled':
-            return 'User Account is locked.'
-        default:
-            return 'Something went wrong';
-    };
-};
-
 const createUserFail = (dispatch, errorCode) => {
     console.log(errorCode);
-    var message = '';
-    switch(errorCode) {
+    let message = '';
+    switch (errorCode) {
         case 'auth/email-already-in-use':
             message = 'Email already in use.';
             dispatch({
@@ -76,7 +62,7 @@ const createUserFail = (dispatch, errorCode) => {
             });
             break;
         case 'auth/invalid-email':
-            message =  'Invalid email.';           
+            message = 'Invalid email.';           
             break;
         case 'auth/weak-password':
             message = 'Password is too weak. Must be at least 6 characters.';           
@@ -93,12 +79,12 @@ const createUserFail = (dispatch, errorCode) => {
                 type: NEWU_CLEAR_PASSWORDS
             });
             break;
-    };
+    }
 
     Toast.show({
         text: message,
-        textStyle: { color: "white" },
-        buttonText: "Okay",
+        textStyle: { color: 'white' },
+        buttonText: 'Okay',
         duration: 5000
     });
 };
@@ -108,12 +94,12 @@ const createUserSuccess = (dispatch, username) => {
     
     currentUser.updateProfile({
         displayName: username
-    })
+    });
 
     dispatch({
         type: NEWU_CREATE_SUCCESS,
         payload: currentUser
     });
     
-    Actions.main({type:'reset'});
+    Actions.main({ type: 'reset' });
 };
