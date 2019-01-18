@@ -125,6 +125,7 @@ class SellerLocation extends Component {
             <Container>                
                 <Content >                    
                     <GooglePlacesAutocomplete
+                        styles={searchStyles}
                         listViewDisplayed='false'  
                         placeholder='Search'
                         minLength={2} 
@@ -134,7 +135,6 @@ class SellerLocation extends Component {
                             language: 'en'
                         }}
                         onPress={(data, details = null) => { 
-                                console.log(details);
                                 if (details.address_components) {
                                     this.props.setPropertyAddress(details.address_components);
                                 }                                
@@ -174,7 +174,26 @@ const styles = StyleSheet.create({
         top: '80%', 
         alignSelf: 'center'
     }
-   });
+});
+
+const searchStyles = {
+    textInput: {
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 0,
+        marginBottom: 0,
+        paddingBottom: 0,
+        margin: 0,
+        height: 38,
+        color: '#5d5d5d',
+        fontSize: 16
+    },
+    textInputContainer: {
+        backgroundColor: 'rgba(0,0,0,0)',
+        borderTopWidth: 0,
+        borderBottomWidth: 0
+  }
+};
 
 const mapStateToProps = state => {
     const { agents } = state.newListing;
