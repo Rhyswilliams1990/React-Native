@@ -1,10 +1,8 @@
 import { NEARBY_AGENT_FETCH_SUCCESS } from '../actions/types';
 
-import userData from './UserData.json';
 
 const INITIAL_STATE = {
-    agents: [],
-    user: userData
+    agents: []
 };
 
 export default (state = INITIAL_STATE, action) => {

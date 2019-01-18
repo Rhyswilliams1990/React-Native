@@ -6,13 +6,17 @@ import {
 
 export const getNearbyAgents = () => {
     return (dispatch) => {
-        firebase.firestore().collection('parties').where('type', '==', 'agent')
-        .onSnapshot(snapshot => {
-            // eslint-disable-next-line no-underscore-dangle
-            if (!snapshot._metadata.hasPendingWrites) {
-                transformSnapshot(dispatch, snapshot);
-            }
-        }); 
+        try {
+            firebase.firestore().collection('parties').where('type', '==', 'agent')
+            .onSnapshot(snapshot => {
+                // eslint-disable-next-line no-underscore-dangle
+                if (!snapshot._metadata.hasPendingWrites) {
+                    transformSnapshot(dispatch, snapshot);
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }         
     };
 };
 

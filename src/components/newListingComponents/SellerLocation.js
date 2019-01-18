@@ -1,25 +1,53 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions, PermissionsAndroid } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Input, Form, Item, Content, Container, Icon, Button, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { getNearbyAgents } from '../../actions';
 
-
 class SellerLocation extends Component {  
+    state = {
+        userLocation: null
+    };
+   
+    componentDidMount() {
+       this.requestLocationPermission();
+    }
 
-    onContinuePress() {
+    onContinuePress() {        
         // TODO: Add animation over the map to as a 'loading', like a radar     
         if (this.props.agents.length > 0) {
             Actions.addressList();
         } else {
             this.props.getNearbyAgents();
         }        
+    }   
+
+    onAgentPress(uid) {
+        this[`markerref${uid}`].showCallout();
     }
 
-    onAgent1Press(uid) {
-        this[`markerref${uid}`].showCallout();
+    async requestLocationPermission() {
+        try {        
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Help us find your location',
+              message: 'We need to access location services  ' +
+                         'so we can find nearby agents.'
+            }
+          );
+
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                // eslint-disable-next-line no-undef
+                navigator.geolocation.watchPosition((location) => {
+                    this.setState({ userLocation: location.coords });                    
+            });
+          }         
+        } catch (err) {
+          console.warn(err);
+        }
     }
 
     renderAgentMarkers() {
@@ -40,7 +68,7 @@ class SellerLocation extends Component {
                         latitude: agent.coordinates.latitude, 
                         longitude: agent.coordinates.longitude 
                     }}                
-                 onPress={this.onAgent1Press.bind(this, agent.uid)}  
+                 onPress={this.onAgentPress.bind(this, agent.uid)}  
                  title={`${agent.name.firstName} ${agent.name.surname}`} 
                  description={agent.shortDescription}
                  ref={marker => {
@@ -57,8 +85,40 @@ class SellerLocation extends Component {
        }       
     }
     
+    renderMapView() {
+        const { mapStyle } = styles;
+        if (this.state.userLocation) {
+            return (
+                <MapView
+                    style={mapStyle}
+                    region={{ 
+                        latitude: this.state.userLocation.latitude, 
+                        longitude: this.state.userLocation.longitude,
+                        latitudeDelta: 0.0822,
+                        longitudeDelta: 0.0421 
+                    }} 
+                    showsUserLocation
+                >
+                    {/* <Marker                                     
+                        coordinate={{ 
+                            latitude: this.state.userLocation.latitude, 
+                            longitude: this.state.userLocation.longitude 
+                        }}                           
+                    />   */}
+                 {this.renderAgentMarkers()}
+                </MapView>   
+            ); 
+        }
+        return (
+            <MapView
+                style={mapStyle} 
+                showsUserLocation
+            />                        
+        );        
+    }
+    
     render() {
-        const { containerStyle, mapStyle, buttonViewStyle } = styles;
+        const { containerStyle, buttonViewStyle } = styles;
         
         return (
             <Container>
@@ -72,16 +132,7 @@ class SellerLocation extends Component {
                         </Item>
                     </Form>
                     <View style={containerStyle}>
-                        <MapView
-                            style={mapStyle}
-                            region={this.props.user.coordinates}
-                            showsUserLocation
-                        >
-                            <Marker                                     
-                                coordinate={this.props.user.coordinates}                           
-                            />                     
-                        {this.renderAgentMarkers()}
-                        </MapView>
+                        { this.renderMapView()}       
                     </View>
                     <View style={buttonViewStyle}>
                         <Button onPress={this.onContinuePress.bind(this)}>
@@ -116,8 +167,8 @@ const styles = StyleSheet.create({
    });
 
 const mapStateToProps = state => {
-    const { user, agents } = state.newListing;
-    return { agents, user };
+    const { agents } = state.newListing;
+    return { agents };
 };
 
 export default connect(mapStateToProps, { getNearbyAgents })(SellerLocation);
