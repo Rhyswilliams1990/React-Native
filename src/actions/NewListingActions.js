@@ -1,9 +1,25 @@
-import agentData from '../reducers/AgentData.json';
+import firebase from 'react-native-firebase';
 
 import {
     NEARBY_AGENT_FETCH_SUCCESS
 } from './types';
 
 export const getNearbyAgents = () => {
-    return { type: NEARBY_AGENT_FETCH_SUCCESS, payload: agentData };
+    return (dispatch) => {
+        firebase.firestore().collection('parties').where('type', '==', 'agent')
+        .onSnapshot(snapshot => {
+            // eslint-disable-next-line no-underscore-dangle
+            if (!snapshot._metadata.hasPendingWrites) {
+                transformSnapshot(dispatch, snapshot);
+            }
+        }); 
+    };
+};
+
+const transformSnapshot = (dispatch, snapshot) => {
+    const data = [];
+    snapshot.forEach((doc) => {                   
+        data.push({ ...doc.data(), uid: doc.id });
+    });
+    dispatch({ type: NEARBY_AGENT_FETCH_SUCCESS, payload: data });    
 };
