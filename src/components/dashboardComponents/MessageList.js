@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { Text, ListItem, Body } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 //import { usersFetch } from '../actions';
 
 class MessageList extends Component {
@@ -9,15 +10,18 @@ class MessageList extends Component {
         
         this.state = {
             data: [
-                { name: 'Viewing Request', header: true },
-                { name: 'Amy - 14/01/2018 14:00', header: false },
-                { name: 'Amy - 14/01/2018 15:00', header: false },
-                { name: 'Amy - 15/01/2018 14:00', header: false },
-                { name: 'Query', header: true },
-                { name: 'Amy - Pricing', header: false },
-                { name: 'Amy - Possible Coal Deposit', header: false },
+                // { name: 'Viewing Request', header: true },
+                // { name: 'Amy - 14/01/2018 14:00', header: false },
+                // { name: 'Amy - 14/01/2018 15:00', header: false },
+                // { name: 'Amy - 15/01/2018 14:00', header: false },
+                // { name: 'Query', header: true },
+                // { name: 'Amy - Pricing', header: false },
+                // { name: 'Amy - Possible Coal Deposit', header: false },
+                // { name: 'Floor Plan Appointment', header: true },
+                // { name: 'Steve - 19/01/2018 13:00', header: false }
                 { name: 'Floor Plan Appointment', header: true },
-                { name: 'Steve - 19/01/2018 13:00', header: false }
+                { recipientUid: '6v4hs34lSqQqApTXGMukO6sfQuu1', name: 'Gareth', header: false },
+                { recipientUid: 'RfcLNywcfNf867RcFCbzdwwGKTu1', name: 'Agent Smith', header: false }
             ],
             stickyHeaderIndices: []
         };
@@ -49,7 +53,10 @@ class MessageList extends Component {
             );
         } else if (!item.header) {
             return (
-                <ListItem style={{ marginLeft: 0 }}>
+                <ListItem 
+                    style={{ marginLeft: 0 }}
+                    onPress={() => Actions.messengerForm({ user: item })}
+                >
                     <Body>
                         <Text>{item.name}</Text>
                     </Body>
@@ -63,7 +70,7 @@ class MessageList extends Component {
             <FlatList
                 data={this.state.data}
                 renderItem={this.renderItem}
-                keyExtractor={item => item.name}
+                keyExtractor={item => item.recipientUid || item.name}
                 stickyHeaderIndices={this.state.stickyHeaderIndices}
             />
         );
