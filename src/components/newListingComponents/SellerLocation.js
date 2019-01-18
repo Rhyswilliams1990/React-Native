@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions, PermissionsAndroid } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { Input, Form, Item, Content, Container, Icon, Button, Text } from 'native-base';
+import { Content, Container, Button, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { getNearbyAgents } from '../../actions';
+import { getNearbyAgents, setPropertyAddress } from '../../actions';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 class SellerLocation extends Component {  
     state = {
@@ -99,12 +100,12 @@ class SellerLocation extends Component {
                     }} 
                     showsUserLocation
                 >
-                    {/* <Marker                                     
+                    <Marker                                     
                         coordinate={{ 
                             latitude: this.state.userLocation.latitude, 
                             longitude: this.state.userLocation.longitude 
                         }}                           
-                    />   */}
+                    />  
                  {this.renderAgentMarkers()}
                 </MapView>   
             ); 
@@ -121,16 +122,25 @@ class SellerLocation extends Component {
         const { containerStyle, buttonViewStyle } = styles;
         
         return (
-            <Container>
-                <Content >
-                    <Form>
-                        <Item>
-                            <Input 
-                                placeholder="PostCode"                        
-                            />    
-                            <Icon action name='search' />
-                        </Item>
-                    </Form>
+            <Container>                
+                <Content >                    
+                    <GooglePlacesAutocomplete
+                        styles={searchStyles}
+                        listViewDisplayed='false'  
+                        placeholder='Search'
+                        minLength={2} 
+                        fetchDetails 
+                        query={{
+                            key: 'AIzaSyCoLf5U9Z3FKXzl1suWJQyLB1CrYlpddMs',
+                            language: 'en'
+                        }}
+                        onPress={(data, details = null) => { 
+                                if (details.address_components) {
+                                    this.props.setPropertyAddress(details.address_components);
+                                }                                
+                                this.setState({ userLocation: { latitude: details.geometry.location.lat, longitude: details.geometry.location.lng } });
+                            }}
+                    />                   
                     <View style={containerStyle}>
                         { this.renderMapView()}       
                     </View>
@@ -164,11 +174,30 @@ const styles = StyleSheet.create({
         top: '80%', 
         alignSelf: 'center'
     }
-   });
+});
+
+const searchStyles = {
+    textInput: {
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 0,
+        marginBottom: 0,
+        paddingBottom: 0,
+        margin: 0,
+        height: 38,
+        color: '#5d5d5d',
+        fontSize: 16
+    },
+    textInputContainer: {
+        backgroundColor: 'rgba(0,0,0,0)',
+        borderTopWidth: 0,
+        borderBottomWidth: 0
+  }
+};
 
 const mapStateToProps = state => {
     const { agents } = state.newListing;
     return { agents };
 };
 
-export default connect(mapStateToProps, { getNearbyAgents })(SellerLocation);
+export default connect(mapStateToProps, { getNearbyAgents, setPropertyAddress })(SellerLocation);

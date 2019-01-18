@@ -1,8 +1,11 @@
 import firebase from 'react-native-firebase';
 
 import {
-    NEARBY_AGENT_FETCH_SUCCESS
+    NEARBY_AGENT_FETCH_SUCCESS,
+    SET_PROPERTY_ADDRESS
 } from './types';
+
+const addressFields = 'street_number,route,locality,country,postal_code';
 
 export const getNearbyAgents = () => {
     return (dispatch) => {
@@ -18,6 +21,22 @@ export const getNearbyAgents = () => {
             console.log(err);
         }         
     };
+};
+
+export const setPropertyAddress = (address) => {    
+    const formattedAddress = transformAddressObject(address);
+    return { type: SET_PROPERTY_ADDRESS, payload: formattedAddress };
+};
+
+const transformAddressObject = (address) => {
+    return address.reduce((obj, addressLine) => {
+        addressLine.types.forEach(type => {
+            if (addressFields.includes(type)) {
+                obj[type] = addressLine.long_name;
+            }
+        });
+        return obj;
+    }, {});
 };
 
 const transformSnapshot = (dispatch, snapshot) => {
