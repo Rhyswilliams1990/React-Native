@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import _ from 'lodash';
-// import { Icon as rnIcon } from 'react-native-vector-icons';
-
 import { Input, Form, Item, Content, Container, Icon, Button, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -26,9 +23,12 @@ class SellerLocation extends Component {
     }
 
     renderAgentMarkers() {
-       /* TODO: Use rnIcon.getImageSource('person-pin', 20, 'blue')
-        to get person icon instead of default */ 
-       if (this.props.agents) {      
+       /* TODO: Use something like:
+       import { Icon as rnIcon } from 'react-native-vector-icons';
+       rnIcon.getImageSource('person-pin', 20, 'blue')
+       to get person icon instead of default */ 
+        
+       if (this.props.agents.length > 0) {      
         const markers = [];
 
         this.props.agents.forEach((agent) => {
@@ -36,9 +36,12 @@ class SellerLocation extends Component {
              <Marker  
                  key={agent.uid}
                  pinColor='blue'
-                 coordinate={agent.coordinates}                
+                 coordinate={{ 
+                        latitude: agent.coordinates.latitude, 
+                        longitude: agent.coordinates.longitude 
+                    }}                
                  onPress={this.onAgent1Press.bind(this, agent.uid)}  
-                 title={agent.name} 
+                 title={`${agent.name.firstName} ${agent.name.surname}`} 
                  description={agent.shortDescription}
                  ref={marker => {
                      this[`markerref${agent.uid}`] = marker;
@@ -113,12 +116,7 @@ const styles = StyleSheet.create({
    });
 
 const mapStateToProps = state => {
-    const { newListing } = state;
-    const { user } = newListing;
-
-    const agents = _.map(newListing.agents, (val, uid) => {
-        return { ...val, uid };
-    });
+    const { user, agents } = state.newListing;
     return { agents, user };
 };
 
