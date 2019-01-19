@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
-// import { FlatList } from "react-native";
 import { Footer, FooterTab, Icon, Button, Container } from 'native-base';
+import CalendarForm from './CalendarForm';
 import MessageList from './MessageList';
-//import { usersFetch } from '../actions';
+import HomeForm from './HomeForm';
+import DocumentForm from './DocumentForm';
+import OffersForm from './OffersForm';
+
+const components = {
+    calendarForm: CalendarForm,
+    messageList: MessageList,
+    homeForm: HomeForm,
+    documentForm: DocumentForm,
+    offersForm: OffersForm
+};
 
 class Dashboard extends Component {
+    state = { buttonPressed: 'messageList' }
+
     renderScreen() {
+        const DisplayComponent = components[this.state.buttonPressed];
         return (
-            <MessageList />
+            <DisplayComponent />
         );
     }
 
@@ -17,22 +30,48 @@ class Dashboard extends Component {
                 {this.renderScreen()}
                 <Footer>
                     <FooterTab>
-                        <Button light>
+                        <Button 
+                            light 
+                            onPress={() => this.setState({ buttonPressed: 'calendarForm' })}
+                            active={this.state.buttonPressed === 'calendarForm'}
+                        >
                             <Icon 
                                 name="calendar-multiple-check" 
                                 type="MaterialCommunityIcons" 
                             />
                         </Button>
-                        <Button light active>
+                        <Button 
+                            light 
+                            onPress={() => this.setState({ buttonPressed: 'messageList' })}
+                            active={this.state.buttonPressed === 'messageList'}
+                        >
                             <Icon 
-                                active name="message-text-outline" 
+                                name="message-text-outline" 
                                 type="MaterialCommunityIcons" 
                             />
                         </Button>
-                        <Button light>
+                        <Button 
+                            light 
+                            onPress={() => this.setState({ buttonPressed: 'homeForm' })} 
+                            active={this.state.buttonPressed === 'homeForm'}
+                        >
+                            <Icon 
+                                name="home" 
+                                type="MaterialCommunityIcons" 
+                            />
+                        </Button>
+                        <Button 
+                            light 
+                            onPress={() => this.setState({ buttonPressed: 'documentForm' })} 
+                            active={this.state.buttonPressed === 'documentForm'}
+                        >
                             <Icon name="text-document" type="Entypo" />
                         </Button>
-                        <Button light>
+                        <Button 
+                            light 
+                            onPress={() => this.setState({ buttonPressed: 'offersForm' })} 
+                            active={this.state.buttonPressed === 'offersForm'}
+                        >
                             <Icon name="ios-swap" type="Ionicons" />
                         </Button>
                     </FooterTab>
