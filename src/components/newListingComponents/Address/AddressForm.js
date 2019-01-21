@@ -36,7 +36,6 @@ class AddressForm extends Component {
     
     if (postal_code) {
       this.setState({ postcode: postal_code.toUpperCase() });
-      this.postcodeLookup(postal_code, street_number);
     }
   } 
 

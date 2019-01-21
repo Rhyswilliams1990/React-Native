@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Toast, Root, Container, Content, Header, Button, Form, Item, Input, Right, Text, Icon, Left, Body, Col, Grid } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { queryLocationPermissions } from '../../actions';
+import { setPropertyAddress } from '../../actions/NewListingActions';
+
 
 class FindLocation extends Component {
     state={
@@ -18,14 +20,17 @@ class FindLocation extends Component {
 
     async postcodeLookup(postcode, streetNo) {    
         try {
-            this.setState({ postcode: postcode.toUpperCase() });
-            const url = `https://maps.googleapis.com/maps/api/geocode/xml?address=${streetNo},${postcode}&sensor=false&key=AIzaSyCoLf5U9Z3FKXzl1suWJQyLB1CrYlpddMs`;
+            const pc = postcode.toUpperCase(); 
+            this.setState({ postcode: pc });
+            const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${streetNo},${postcode}&sensor=false&key=AIzaSyCoLf5U9Z3FKXzl1suWJQyLB1CrYlpddMs`;
             
             const response = await fetch(url);
             if (response.ok) {
              // set user location based on geomtry
              // loop address_components for address
-             
+                const responseJson = await response.json();              
+                this.props.setPropertyAddress(streetNo, responseJson.results[0].address_components);
+                Actions.sellerLocation({ userLocation: responseJson.results[0].geometry.location });             
             } else {
                 console.log(response);
             }          
@@ -83,7 +88,6 @@ class FindLocation extends Component {
                             />
                         </Item>    
                     </Form> 
-                    <Text>{this.props.locationAllowed.toString()}</Text>
                     <Grid>
                         <Col style={{ paddingRight: 10 }}>
                             <Button light full onPress={this.useLocationButton.bind(this)}>
@@ -116,4 +120,4 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps, { queryLocationPermissions })(FindLocation);
+export default connect(mapStateToProps, { queryLocationPermissions, setPropertyAddress })(FindLocation);

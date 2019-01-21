@@ -26,12 +26,13 @@ export const getNearbyAgents = () => {
     };
 };
 
-export const setPropertyAddress = (address) => {    
-    return { type: SET_PROPERTY_ADDRESS, payload: address };
+export const setPropertyAddress = (street_number, address) => { 
+    const formattedAddress = { ...transformAddressObject(address), street_number };   
+    return { type: SET_PROPERTY_ADDRESS, payload: formattedAddress };
 };
 
-export const setMapPropertyAddress = (address) => {    
-    const formattedAddress = transformAddressObject(address);
+export const setMapPropertyAddress = (address) => {  
+    const formattedAddress = transformAddressObject(address);  
     return { type: SET_MAP_LOOKUP_PROPERTY_ADDRESS, payload: formattedAddress };
 };
 

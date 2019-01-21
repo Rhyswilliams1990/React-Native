@@ -12,6 +12,18 @@ class SellerLocation extends Component {
         userLocation: null
     };
    
+    componentWillMount() {
+        if (this.props.userLocation) {
+            this.setState({ 
+                userLocation: 
+                { 
+                    latitude: this.props.userLocation.lat,
+                    longitude: this.props.userLocation.lng
+                } 
+            });
+        }
+    }
+
     componentDidMount() {
        this.getUserLocation();
     }
@@ -189,6 +201,7 @@ const searchStyles = {
 };
 
 const mapStateToProps = state => {
+    console.log(state);
     const { agents } = state.newListing;
     const { locationAllowed } = state.globalSettings;
     return { agents, locationAllowed };
