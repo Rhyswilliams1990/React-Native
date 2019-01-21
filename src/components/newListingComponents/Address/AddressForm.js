@@ -13,9 +13,33 @@ import {
   Icon, 
   Body } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { setPropertyAddress } from '../../../actions/NewListingActions';
 
 class AddressForm extends Component {
-  
+  state = {
+    street_number: '',
+    route: '',
+    locality: '',
+    country: '',
+    postal_code: ''
+  };
+
+  componentWillMount() {
+    if (!this.props.mapLookupAddress) {
+      return;
+    }
+    const { postal_code, street_number } = this.props.mapLookupAddress;
+    if (street_number) {
+      this.setState({ number: street_number.toUpperCase() });
+    }
+    
+    if (postal_code) {
+      this.setState({ postcode: postal_code.toUpperCase() });
+      this.postcodeLookup(postal_code, street_number);
+    }
+  } 
+
   render() {
   console.log('render hit');
     return (
@@ -31,7 +55,7 @@ class AddressForm extends Component {
         <Content>
           <Form>
             <Item>
-              <Input placeholder="Address Line 1" />
+              <Input placeholder="Number" />
             </Item>
             <Item>
               <Input placeholder="Address Line 2" />
@@ -57,4 +81,9 @@ class AddressForm extends Component {
 }
 
 
-export default AddressForm;
+const mapStateToProps = state => {
+  const { mapLookupAddress } = state.newListing;
+  return { mapLookupAddress };
+};
+
+export default connect(mapStateToProps, { setPropertyAddress })(AddressForm);

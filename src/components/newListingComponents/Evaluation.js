@@ -13,7 +13,7 @@ class Confirmation extends Component {
                     <Text style={styles.smallPrint}>*this is an estimate, a real estimate will be performed by a trained professional</Text>
                 </View>
                 <View style={{ alignSelf: 'center', padding: 20 }}>
-                    <Button full onPress={() => { Actions.contactPreferences(); }}>
+                    <Button full onPress={() => { Actions.confirmation(); }}>
                         <Text>Continue</Text>    
                     </Button> 
                 </View>

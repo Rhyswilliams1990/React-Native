@@ -4,8 +4,8 @@ import MapView, { Marker } from 'react-native-maps';
 import { Content, Container, Button, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { getNearbyAgents, setPropertyAddress } from '../../actions';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { getNearbyAgents, setMapPropertyAddress } from '../../actions';
 
 class SellerLocation extends Component {  
     state = {
@@ -138,7 +138,13 @@ class SellerLocation extends Component {
                                 if (details.address_components) {
                                     this.props.setPropertyAddress(details.address_components);
                                 }                                
-                                this.setState({ userLocation: { latitude: details.geometry.location.lat, longitude: details.geometry.location.lng } });
+                                this.setState({ 
+                                        userLocation: 
+                                        { 
+                                            latitude: details.geometry.location.lat,
+                                            longitude: details.geometry.location.lng
+                                        } 
+                                    });
                             }}
                     />                   
                     <View style={containerStyle}>
@@ -200,4 +206,4 @@ const mapStateToProps = state => {
     return { agents };
 };
 
-export default connect(mapStateToProps, { getNearbyAgents, setPropertyAddress })(SellerLocation);
+export default connect(mapStateToProps, { getNearbyAgents, setPropertyAddress: setMapPropertyAddress })(SellerLocation);

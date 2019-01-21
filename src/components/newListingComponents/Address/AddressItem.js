@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import { Text, CardItem, Icon, Right } from 'native-base';
-import { Actions } from 'react-native-router-flux';
 
 class AddressItem extends Component {
   render() {
-    const { addressLine1, addressLine2, addressLine3, addressLine4, postcode } = this.props.address;
+    const { address, postcode } = this.props;
+    
+    const displayAddress = address.replace(',', '').replace('  ', ' ');
     const { textStyle } = styles;
     return (
-      <CardItem bordered onPress={() => Actions.propertyDetails()}>
-          <Text style={textStyle}>{addressLine1}</Text>
-          <Text style={textStyle}>{addressLine2}</Text>
-          <Text style={textStyle}>{addressLine3}</Text>
-          <Text style={textStyle}>{addressLine4}</Text>
+      <CardItem bordered onPress={() => this.props.selectAddress(address, postcode)}>
+          <Text style={textStyle}>{displayAddress}</Text>
           <Text style={textStyle}>{postcode}</Text>
           <Right>
-            <Icon onPress={() => Actions.propertyDetails()} name="arrow-forward" />
+            <Icon onPress={() => this.props.selectAddress(address, postcode)} name="arrow-forward" />
           </Right>
       </CardItem>
     );
