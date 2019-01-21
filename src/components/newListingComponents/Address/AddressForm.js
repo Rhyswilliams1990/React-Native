@@ -40,7 +40,6 @@ class AddressForm extends Component {
   } 
 
   render() {
-  console.log('render hit');
     return (
       <Container>
         <Header>

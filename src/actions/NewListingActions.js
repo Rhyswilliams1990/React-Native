@@ -14,7 +14,6 @@ export const getNearbyAgents = () => {
         try {
             firebase.firestore().collection('parties').where('type', '==', 'agent')
             .onSnapshot(snapshot => {
-                console.log(snapshot);
                 // eslint-disable-next-line no-underscore-dangle
                 if (!snapshot._metadata.hasPendingWrites) {
                     transformSnapshot(dispatch, snapshot);

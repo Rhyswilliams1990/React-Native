@@ -28,9 +28,18 @@ class FindLocation extends Component {
             if (response.ok) {
              // set user location based on geomtry
              // loop address_components for address
-                const responseJson = await response.json();              
-                this.props.setPropertyAddress(streetNo, responseJson.results[0].address_components);
-                Actions.sellerLocation({ userLocation: responseJson.results[0].geometry.location });             
+                const responseJson = await response.json(); 
+                if (responseJson.results.length > 0) {
+                    this.props.setPropertyAddress(streetNo, responseJson.results[0].address_components);
+                    Actions.sellerLocation({ userLocation: responseJson.results[0].geometry.location }); 
+                } else {
+                    Toast.show({
+                        text: 'Could not find address!',
+                        textStyle: { color: 'white' },
+                        buttonText: 'Okay',
+                        duration: 5000
+                    });
+                }                         
             } else {
                 console.log(response);
             }          
@@ -115,7 +124,6 @@ class FindLocation extends Component {
 
 const mapStateToProps = state => {
     const { locationAllowed } = state.globalSettings;
-    console.log(locationAllowed);
     return { locationAllowed };
 };
 

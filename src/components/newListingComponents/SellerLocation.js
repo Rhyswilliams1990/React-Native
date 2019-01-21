@@ -31,7 +31,7 @@ class SellerLocation extends Component {
     onContinuePress() {        
         // TODO: Add animation over the map to as a 'loading', like a radar     
         if (this.props.agents.length > 0) {
-            Actions.addressList();
+            Actions.propertyDetails();
         } else {
             this.props.getNearbyAgents();
         }        
@@ -89,7 +89,7 @@ class SellerLocation extends Component {
         const { mapStyle } = styles;
         if (this.state.userLocation) {
             return (
-                <MapView
+                <MapView                
                     style={mapStyle}
                     region={{ 
                         latitude: this.state.userLocation.latitude, 
@@ -201,7 +201,6 @@ const searchStyles = {
 };
 
 const mapStateToProps = state => {
-    console.log(state);
     const { agents } = state.newListing;
     const { locationAllowed } = state.globalSettings;
     return { agents, locationAllowed };
