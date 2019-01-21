@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Content, Header, Button, Form, Item, Input, Right, Text, Icon, Left, Body, Col, Grid } from 'native-base';
-import { Actions } from 'react-native-gifted-chat';
+import { Toast, Root, Container, Content, Header, Button, Form, Item, Input, Right, Text, Icon, Left, Body, Col, Grid } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 import { queryLocationPermissions } from '../../actions';
 
 class FindLocation extends Component {
@@ -9,6 +9,13 @@ class FindLocation extends Component {
         number: '',
         postcode: ''
     }
+   
+    componentDidUpdate() {
+        if (this.props.locationAllowed) {
+            Actions.sellerLocation();
+        }
+    }
+
     async postcodeLookup(postcode, streetNo) {    
         try {
             this.setState({ postcode: postcode.toUpperCase() });
@@ -28,20 +35,32 @@ class FindLocation extends Component {
     }
 
     useLocationButton() {        
-        this.props.queryLocationPermissions();
-        Actions.sellerLocation();       
+        this.props.queryLocationPermissions();  
     }
-
+    postcodeButtonPressed() {
+        const { number, postcode } = this.state;
+        if (number === '' || postcode === '') {
+            Toast.show({
+                text: 'Number and postcode required',
+                textStyle: { color: 'white' },
+                buttonText: 'Okay',
+                duration: 5000
+            });
+        } else {
+            this.postcodeLookup(postcode, number);
+        } 
+    }
     render() {
         return (
+            <Root>
             <Container>
                 <Header>
-                <Left>
-                    <Icon onPress={() => Actions.pop()} name='arrow-back' />
-                </Left>
-                <Body>
-                    <Text>Find Address</Text>
-                </Body>
+                    <Left>
+                        <Icon onPress={() => Actions.pop()} name='arrow-back' />
+                    </Left>
+                    <Body>
+                        <Text>Find Address</Text>
+                    </Body>
                 </Header>
                 <Content padder>
                     <Form>
@@ -64,6 +83,7 @@ class FindLocation extends Component {
                             />
                         </Item>    
                     </Form> 
+                    <Text>{this.props.locationAllowed.toString()}</Text>
                     <Grid>
                         <Col style={{ paddingRight: 10 }}>
                             <Button light full onPress={this.useLocationButton.bind(this)}>
@@ -74,7 +94,7 @@ class FindLocation extends Component {
                             </Button>
                         </Col> 
                         <Col style={{ paddingLeft: 10 }}>
-                            <Button full>
+                            <Button full onPress={this.postcodeButtonPressed.bind(this)}>
                                 <Text>Lookup Postcode</Text>
                                 <Right>
                                     <Icon name='search' />
@@ -84,8 +104,16 @@ class FindLocation extends Component {
                     </Grid>
                 </Content>
             </Container>
+            </Root>
         );
     }
 }
 
-export default connect(null, { queryLocationPermissions })(FindLocation);
+const mapStateToProps = state => {
+    const { locationAllowed } = state.globalSettings;
+    console.log(locationAllowed);
+    return { locationAllowed };
+};
+
+
+export default connect(mapStateToProps, { queryLocationPermissions })(FindLocation);

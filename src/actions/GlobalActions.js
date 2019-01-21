@@ -16,6 +16,8 @@ export const queryLocationPermissions = () => {
             ).then(value => {
                 if (value === PermissionsAndroid.RESULTS.GRANTED) {
                     dispatch({ type: LOCATION_ALLOWED, payload: true });
+                 } else {
+                    dispatch({ type: LOCATION_ALLOWED, payload: false });
                  }
             });
           } catch (err) {

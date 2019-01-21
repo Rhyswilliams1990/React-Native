@@ -13,7 +13,7 @@ class SellerLocation extends Component {
     };
    
     componentDidMount() {
-       this.requestLocationPermission();
+       this.getUserLocation();
     }
 
     onContinuePress() {        
@@ -29,25 +29,12 @@ class SellerLocation extends Component {
         this[`markerref${uid}`].showCallout();
     }
 
-    async requestLocationPermission() {
-        try {        
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-              title: 'Help us find your location',
-              message: 'We need to access location services  ' +
-                         'so we can find nearby agents.'
-            }
-          );
-
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                // eslint-disable-next-line no-undef
-                navigator.geolocation.watchPosition((location) => {
-                    this.setState({ userLocation: location.coords });                    
-            });
-          }         
-        } catch (err) {
-          console.warn(err);
+    getUserLocation() {
+        if (this.props.locationAllowed) {
+            // eslint-disable-next-line no-undef
+            navigator.geolocation.watchPosition((location) => {
+                this.setState({ userLocation: location.coords }); 
+            });  
         }
     }
 
@@ -203,7 +190,8 @@ const searchStyles = {
 
 const mapStateToProps = state => {
     const { agents } = state.newListing;
-    return { agents };
+    const { locationAllowed } = state.globalSettings;
+    return { agents, locationAllowed };
 };
 
 export default connect(mapStateToProps, { getNearbyAgents, setPropertyAddress: setMapPropertyAddress })(SellerLocation);
