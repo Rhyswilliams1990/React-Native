@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { Text, ListItem, Body } from 'native-base';
+import { Text, ListItem, Body, Container, Header, Left, Right, Icon, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 //import { usersFetch } from '../actions';
 
@@ -67,12 +67,27 @@ class MessageList extends Component {
 
     render() {
         return (
-            <FlatList
-                data={this.state.data}
-                renderItem={this.renderItem}
-                keyExtractor={item => item.recipientUid || item.name}
-                stickyHeaderIndices={this.state.stickyHeaderIndices}
-            />
+            <Container>
+                <Header>
+                    <Body>
+                        <Text>Communications</Text>
+                    </Body>
+                    <Right>
+                        <Button 
+                            transparent
+                            onPress={() => Actions.beginConversation()}
+                        >
+                            <Icon name='message-plus' type='MaterialCommunityIcons' />
+                        </Button>
+                    </Right>
+                </Header>
+                <FlatList
+                    data={this.state.data}
+                    renderItem={this.renderItem}
+                    keyExtractor={item => item.recipientUid || item.name}
+                    stickyHeaderIndices={this.state.stickyHeaderIndices}
+                />
+            </Container>
         );
     }
 }

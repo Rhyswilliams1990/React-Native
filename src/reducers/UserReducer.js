@@ -22,7 +22,13 @@ export default (state = INITIAL_STATE, action) => {
         case USER_DETAIL_UPDATE:
             return { ...state, [action.payload.prop]: action.payload.value };
         case NEWU_CLEAR_PASSWORDS:
-            return { ...state, error: action.payload, password: '', passwordRepeat: '', loading: false };
+            return { 
+                ...state, 
+                error: action.payload, 
+                password: '', 
+                passwordRepeat: '', 
+                loading: false 
+            };
         case NEWU_CLEAR_EMAILS:
             return { ...state, error: action.payload, email: '', loading: false, emailValid: true };
         case NEWU_CLEAR_SCREEN:
