@@ -1,7 +1,9 @@
+/* eslint-disable no-param-reassign */
 import firebase from 'react-native-firebase';
 
 import {
     NEARBY_AGENT_FETCH_SUCCESS,
+    SET_MAP_LOOKUP_PROPERTY_ADDRESS,
     SET_PROPERTY_ADDRESS
 } from './types';
 
@@ -23,9 +25,14 @@ export const getNearbyAgents = () => {
     };
 };
 
-export const setPropertyAddress = (address) => {    
-    const formattedAddress = transformAddressObject(address);
+export const setPropertyAddress = (street_number, address) => { 
+    const formattedAddress = { ...transformAddressObject(address), street_number };   
     return { type: SET_PROPERTY_ADDRESS, payload: formattedAddress };
+};
+
+export const setMapPropertyAddress = (address) => {  
+    const formattedAddress = transformAddressObject(address);  
+    return { type: SET_MAP_LOOKUP_PROPERTY_ADDRESS, payload: formattedAddress };
 };
 
 const transformAddressObject = (address) => {
