@@ -26,8 +26,6 @@ class FindLocation extends Component {
             
             const response = await fetch(url);
             if (response.ok) {
-             // set user location based on geomtry
-             // loop address_components for address
                 const responseJson = await response.json(); 
                 if (responseJson.results.length > 0) {
                     this.props.setPropertyAddress(streetNo, responseJson.results[0].address_components);
