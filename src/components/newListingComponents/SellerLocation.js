@@ -135,7 +135,7 @@ class SellerLocation extends Component {
                         }}
                         onPress={(data, details = null) => { 
                                 if (details.address_components) {
-                                    this.props.setPropertyAddress(details.address_components);
+                                    this.props.setMapPropertyAddress(details.address_components);
                                 }                                
                                 this.setState({ 
                                         userLocation: 
