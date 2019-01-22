@@ -7,7 +7,6 @@ import MessengerForm from './components/messengerComponents/MessengerForm';
 import BeginConversationForm from './components/messengerComponents/BeginConversationForm';
 import Landing from './components/Landing';
 import SellerLocation from './components/newListingComponents/SellerLocation';
-import AddressList from './components/newListingComponents/Address/AddressList';
 import AddressForm from './components/newListingComponents/Address/AddressForm';
 import PropertyDetails from './components/newListingComponents/PropertyDetails';
 import Confirmation from './components/newListingComponents/Confirmation';
@@ -43,10 +42,6 @@ const RouterComponent = () => {
                     <Scene 
                         key="sellerLocation"
                         component={SellerLocation}  
-                    />
-                    <Scene 
-                        key="addressList"
-                        component={AddressList}                        
                     />
                     <Scene 
                         key="addressForm"
