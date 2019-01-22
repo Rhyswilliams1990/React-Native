@@ -37,12 +37,11 @@ const RouterComponent = () => {
                     <Scene 
                         key="landing"
                         component={Landing}
-                        
+                        initial
                     />
                     <Scene 
                         key="sellerLocation"
-                        component={SellerLocation}    
-                                            
+                        component={SellerLocation}  
                     />
                     <Scene 
                         key="addressList"
@@ -74,8 +73,7 @@ const RouterComponent = () => {
                     />
                     <Scene
                         key="findLocation"
-                        component={FindLocation}      
-                        initial                    
+                        component={FindLocation}    
                     />
                 </Scene>
                 <Scene key="existingListing">
