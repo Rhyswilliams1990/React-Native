@@ -31,7 +31,7 @@ class SellerLocation extends Component {
     onContinuePress() {        
         // TODO: Add animation over the map to as a 'loading', like a radar     
         if (this.props.agents.length > 0) {
-            Actions.propertyDetails();
+            Actions.addressForm();
         } else {
             this.props.getNearbyAgents();
         }        
@@ -206,4 +206,4 @@ const mapStateToProps = state => {
     return { agents, locationAllowed };
 };
 
-export default connect(mapStateToProps, { getNearbyAgents, setPropertyAddress: setMapPropertyAddress })(SellerLocation);
+export default connect(mapStateToProps, { getNearbyAgents, setMapPropertyAddress })(SellerLocation);
