@@ -11,7 +11,7 @@ class Landing extends Component {
         Actions.auth();
     }
     onSellPress() {
-        Actions.sellerLocation();
+        Actions.findLocation();
     }
     render() {
         const { contentStyle, buttonStyle, lightTextStyle } = styles;
