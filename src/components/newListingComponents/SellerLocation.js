@@ -1,25 +1,37 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, PermissionsAndroid } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Content, Container, Button, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { getNearbyAgents, setPropertyAddress } from '../../actions';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { getNearbyAgents, setMapPropertyAddress } from '../../actions';
 
 class SellerLocation extends Component {  
     state = {
         userLocation: null
     };
    
+    componentWillMount() {
+        if (this.props.userLocation) {
+            this.setState({ 
+                userLocation: 
+                { 
+                    latitude: this.props.userLocation.lat,
+                    longitude: this.props.userLocation.lng
+                } 
+            });
+        }
+    }
+
     componentDidMount() {
-       this.requestLocationPermission();
+       this.getUserLocation();
     }
 
     onContinuePress() {        
         // TODO: Add animation over the map to as a 'loading', like a radar     
         if (this.props.agents.length > 0) {
-            Actions.addressList();
+            Actions.propertyDetails();
         } else {
             this.props.getNearbyAgents();
         }        
@@ -29,25 +41,12 @@ class SellerLocation extends Component {
         this[`markerref${uid}`].showCallout();
     }
 
-    async requestLocationPermission() {
-        try {        
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-              title: 'Help us find your location',
-              message: 'We need to access location services  ' +
-                         'so we can find nearby agents.'
-            }
-          );
-
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                // eslint-disable-next-line no-undef
-                navigator.geolocation.watchPosition((location) => {
-                    this.setState({ userLocation: location.coords });                    
-            });
-          }         
-        } catch (err) {
-          console.warn(err);
+    getUserLocation() {
+        if (this.props.locationAllowed) {
+            // eslint-disable-next-line no-undef
+            navigator.geolocation.watchPosition((location) => {
+                this.setState({ userLocation: location.coords }); 
+            });  
         }
     }
 
@@ -90,7 +89,7 @@ class SellerLocation extends Component {
         const { mapStyle } = styles;
         if (this.state.userLocation) {
             return (
-                <MapView
+                <MapView                
                     style={mapStyle}
                     region={{ 
                         latitude: this.state.userLocation.latitude, 
@@ -136,9 +135,15 @@ class SellerLocation extends Component {
                         }}
                         onPress={(data, details = null) => { 
                                 if (details.address_components) {
-                                    this.props.setPropertyAddress(details.address_components);
+                                    this.props.setMapPropertyAddress(details.address_components);
                                 }                                
-                                this.setState({ userLocation: { latitude: details.geometry.location.lat, longitude: details.geometry.location.lng } });
+                                this.setState({ 
+                                        userLocation: 
+                                        { 
+                                            latitude: details.geometry.location.lat,
+                                            longitude: details.geometry.location.lng
+                                        } 
+                                    });
                             }}
                     />                   
                     <View style={containerStyle}>
@@ -197,7 +202,8 @@ const searchStyles = {
 
 const mapStateToProps = state => {
     const { agents } = state.newListing;
-    return { agents };
+    const { locationAllowed } = state.globalSettings;
+    return { agents, locationAllowed };
 };
 
-export default connect(mapStateToProps, { getNearbyAgents, setPropertyAddress })(SellerLocation);
+export default connect(mapStateToProps, { getNearbyAgents, setPropertyAddress: setMapPropertyAddress })(SellerLocation);

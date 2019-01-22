@@ -13,6 +13,7 @@ import Confirmation from './components/newListingComponents/Confirmation';
 import Evaluation from './components/newListingComponents/Evaluation';
 import ContactPreferences from './components/newListingComponents/ContactPreferences';
 import UserInfo from './components/newListingComponents/UserInfo';
+import FindLocation from './components/newListingComponents/FindLocation';
 
 const RouterComponent = () => {
     return (
@@ -40,7 +41,7 @@ const RouterComponent = () => {
                     />
                     <Scene 
                         key="sellerLocation"
-                        component={SellerLocation}                        
+                        component={SellerLocation}  
                     />
                     <Scene 
                         key="addressList"
@@ -69,6 +70,10 @@ const RouterComponent = () => {
                     <Scene
                         key="confirmation"
                         component={Confirmation}                          
+                    />
+                    <Scene
+                        key="findLocation"
+                        component={FindLocation}    
                     />
                 </Scene>
                 <Scene key="existingListing">
