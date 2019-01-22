@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { 
     Container, 
     Content, 
@@ -15,8 +16,39 @@ import {
     Title,
     Left } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import { onNewListingChange, getEvaluation } from '../../actions';
+
+const PROPERTY_FIELD = 'propertyType';
+const OWNERSHIP_FIELD = 'ownershipType';
+const BEDROOMS_FIELD = 'numberOfBedrooms';
+const BATHROOMS_FIELD = 'numberOfBathrooms';
+const RECEPTION_ROOMS_FIELD = 'numberOfReceptionRooms';
 
 class PropertyDetails extends Component {
+    onPropertyTypeChange(value) {
+        this.props.onNewListingChange({ prop: PROPERTY_FIELD, value });
+    }
+
+    onOwnershipTypeChange(value) {
+        this.props.onNewListingChange({ prop: OWNERSHIP_FIELD, value });
+    }
+    
+    onBedroomsChange(value) {
+        this.props.onNewListingChange({ prop: BEDROOMS_FIELD, value });
+    }
+    
+    onBathroomsChange(value) {
+        this.props.onNewListingChange({ prop: BATHROOMS_FIELD, value });
+    }
+    
+    onReceptionRoomsChange(value) {
+        this.props.onNewListingChange({ prop: RECEPTION_ROOMS_FIELD, value });
+    }
+    
+    onContinuePress() {
+        this.props.getEvaluation();        
+    }
+
     render() {
         return (
             <Container>
@@ -37,7 +69,11 @@ class PropertyDetails extends Component {
                                 name='city'
                                 type="FontAwesome5" 
                             />
-                            <Picker placeholder='Property Type'>
+                            <Picker                             
+                                onValueChange={this.onPropertyTypeChange.bind(this)} 
+                                selectedValue={this.props.propertyType}
+                                placeholder='Property Type'
+                            >
                                 <Item label='Detacted' value='detached' />
                                 <Item label='Linked Detached' value='link_detached' />
                                 <Item label='Semi Detached' value='semi_detached' />
@@ -55,9 +91,12 @@ class PropertyDetails extends Component {
                         </Item>
                         <Item>
                             <Icon name='ra' type="FontAwesome" />
-                            <Picker>
-                                <Item label='Leasehold' value='freehold' />
-                                <Item label='Freehold' value='leasehold' />
+                            <Picker 
+                                onValueChange={this.onOwnershipTypeChange.bind(this)} 
+                                selectedValue={this.props.ownershipType}
+                            >
+                                <Item label='Leasehold' value='leasehold' />
+                                <Item label='Freehold' value='freehold' />
                                 <Item 
                                     label='Share of Freehold' 
                                     value='share_of_freehold' 
@@ -66,18 +105,33 @@ class PropertyDetails extends Component {
                         </Item>
                         <Item>
                             <Icon name="bed" type="FontAwesome" />
-                            <Input keyboardType="numeric" placeholder='Bedrooms' />
+                            <Input 
+                                onChangeText={this.onBedroomsChange.bind(this)} 
+                                value={this.props.numberOfBedrooms}
+                                keyboardType="numeric" 
+                                placeholder='Bedrooms' 
+                            />
                         </Item>
                         <Item>
                             <Icon name='bath' type="FontAwesome" />
-                            <Input keyboardType="numeric" placeholder='Bathrooms' />
+                            <Input 
+                                onChangeText={this.onBathroomsChange.bind(this)} 
+                                value={this.props.numberOfBathrooms}
+                                keyboardType="numeric" 
+                                placeholder='Bathrooms' 
+                            />
                         </Item>
                         <Item>
                             <Icon name='sofa' type="MaterialCommunityIcons" />
-                            <Input keyboardType="numeric" placeholder='Reception Rooms' />
+                            <Input 
+                                onChangeText={this.onReceptionRoomsChange.bind(this)} 
+                                value={this.props.numberOfReceptionRooms}
+                                keyboardType="numeric" 
+                                placeholder='Reception Rooms' 
+                            />
                         </Item>
                     </Form>                    
-                    <Button full onPress={() => { Actions.evaluation(); }}>
+                    <Button full onPress={this.onContinuePress.bind(this)}>
                         <Text>Continue</Text>
                     </Button>    
                 </Content>
@@ -86,4 +140,20 @@ class PropertyDetails extends Component {
     }
 }
 
-export default PropertyDetails;
+const mapStateToProps = state => {
+    const { 
+        numberOfReceptionRooms, 
+        numberOfBathrooms, 
+        numberOfBedrooms, 
+        ownershipType, 
+        propertyType 
+    } = state.newListing;
+
+    return { numberOfReceptionRooms, 
+        numberOfBathrooms, 
+        numberOfBedrooms, 
+        ownershipType, 
+        propertyType };
+};
+
+export default connect(mapStateToProps, { onNewListingChange, getEvaluation })(PropertyDetails);

@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 
-class Confirmation extends Component {
+class Evaluation extends Component {
     render() {
         return (
             <View style={styles.containerStyle}>                           
                 <Text>Based on recent sales in your area</Text>
                 <Text>your property is worth:</Text>      
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={styles.textExclamation}>£400,000</Text>
+                    <Text style={styles.textExclamation}>{this.props.evaluation}</Text>
                     <Text style={styles.smallPrint}>*this is an estimate, a real estimate will be performed by a trained professional</Text>
                 </View>
                 <View style={{ alignSelf: 'center', padding: 20 }}>
-                    <Button full onPress={() => { Actions.confirmation(); }}>
+                    <Button full onPress={() => { Actions.userInfo(); }}>
                         <Text>Continue</Text>    
                     </Button> 
                 </View>
@@ -41,4 +42,9 @@ const styles = {
     }
 };
 
-export default Confirmation;
+const mapStateToProps = state => {
+    const { evaluation } = state.newListing;
+    return { evaluation };
+};
+
+export default connect(mapStateToProps)(Evaluation);

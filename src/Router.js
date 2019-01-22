@@ -50,6 +50,7 @@ const RouterComponent = () => {
                     <Scene
                         key="propertyDetails"
                         component={PropertyDetails}
+                        
                     />
                     <Scene
                         key="evaluation"

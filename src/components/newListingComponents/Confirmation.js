@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Button, Content, Container } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 
 class Confirmation extends Component {
     render() {
@@ -8,18 +9,16 @@ class Confirmation extends Component {
             <Container>
                 <Content padder>
                     <View style={styles.containerStyle}>
-                        <Text style={styles.textExclamation}>Congratulations</Text>
-                        <Text>Your agent will be in tough shortly.</Text>
+                        <Text style={styles.textExclamation}>Congratulations {this.props.forename}</Text>
+                        <Text>Your agent will be in tough shortly about your {this.props.numberOfBedrooms} bedroom {this.props.propertyType} property.</Text>
                         <Text>Thank you for choosing Local Link.</Text>      
                         <View style={{ paddingTop: 30 }}>
-                            <Text>Flat 14 Ossel Court</Text>    
-                            <Text>13 Telegraph Avenue</Text>    
-                            <Text>Greenwich</Text>    
-                            <Text>London</Text>    
-                            <Text>SE10 1PO</Text>    
+                            <Text>{this.props.address.street_number}</Text>    
+                            <Text>{this.props.address.route}</Text>    
+                            <Text>{this.props.address.locality}</Text>    
+                            <Text>{this.props.address.country}</Text>    
+                            <Text>{this.props.address.postal_code}</Text>    
                         </View>                  
-                        
-                        {/* TODO: ADD ADDRESS WHEN STATE IS WORKING */}
                         {/* TODO: ADD AGENT CARD WHEN DESIGNED */}
                          
                     </View> 
@@ -50,4 +49,20 @@ const styles = {
     }
 };
 
-export default Confirmation;
+const mapStateToProps = state => {
+    
+    const {
+        address,
+        forename,
+        numberOfBedrooms, 
+        propertyType 
+    } = state.newListing;
+    return {
+        address,
+        forename,
+        numberOfBedrooms,
+        propertyType 
+    };
+};
+
+export default connect(mapStateToProps)(Confirmation);
