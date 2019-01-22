@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Dimensions, PermissionsAndroid } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Content, Container, Button, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';

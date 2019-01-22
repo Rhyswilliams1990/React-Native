@@ -24,6 +24,7 @@ class FindLocation extends Component {
             this.setState({ postcode: pc });
             const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${streetNo},${postcode}&sensor=false&key=AIzaSyCoLf5U9Z3FKXzl1suWJQyLB1CrYlpddMs`;
             
+            // eslint-disable-next-line no-undef
             const response = await fetch(url);
             if (response.ok) {
                 const responseJson = await response.json(); 
