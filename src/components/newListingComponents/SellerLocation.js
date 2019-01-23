@@ -9,13 +9,13 @@ import { getNearbyAgents, setMapPropertyAddress } from '../../actions';
 
 class SellerLocation extends Component {  
     state = {
-        userLocation: null
+        userLocation: null,
+        watchId: null
     };
-   
-    componentWillMount() {   
-        //TODO: Add Loading     
-        this.props.getNearbyAgents();
 
+    componentDidMount() {
+        this.setState({ userLocation: null });
+        this.props.getNearbyAgents();
         if (this.props.userLocation) {
             this.setState({ 
                 userLocation: 
@@ -25,10 +25,12 @@ class SellerLocation extends Component {
                 } 
             });
         }
+        this.getUserLocation();
     }
 
-    componentDidMount() {
-       this.getUserLocation();
+    componentWillUnmount() {
+        // eslint-disable-next-line no-undef
+        navigator.geolocation.clearWatch(this.state.watchId);
     }
 
     onContinuePress() {        
@@ -42,9 +44,10 @@ class SellerLocation extends Component {
     getUserLocation() {
         if (this.props.locationAllowed) {
             // eslint-disable-next-line no-undef
-            navigator.geolocation.watchPosition((location) => {
+            const watchId = navigator.geolocation.watchPosition((location) => {
                 this.setState({ userLocation: location.coords }); 
             });  
+            this.setState({ watchId });
         }
     }
 
@@ -85,6 +88,7 @@ class SellerLocation extends Component {
     
     renderMapView() {
         const { mapStyle } = styles;
+        
         if (this.state.userLocation) {
             return (
                 <MapView                
@@ -208,6 +212,7 @@ const searchStyles = {
 const mapStateToProps = state => {
     const { agents, loadingAgents } = state.newListing;
     const { locationAllowed } = state.globalSettings;
+    console.log(agents);
     return { agents, locationAllowed, loadingAgents };
 };
 
