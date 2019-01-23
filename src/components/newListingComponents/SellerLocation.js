@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { Content, Container, Button, Text, Footer, FooterTab } from 'native-base';
+import { Content, Container, Button, Text, Footer, FooterTab, Spinner } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -114,7 +114,19 @@ class SellerLocation extends Component {
             />                        
         );        
     }
-   
+    renderButton() {               
+        if (this.props.loadingAgents) {
+            return (
+            <Button disabled>
+                <Spinner size='large' />
+            </Button>);
+        }
+
+        return (
+            <Button onPress={this.onContinuePress.bind(this)}>
+                <Text>Continue</Text>
+            </Button>);
+    }
     render() {
         const { containerStyle } = styles;
         
@@ -150,9 +162,7 @@ class SellerLocation extends Component {
                 </Content>
                 <Footer>
                     <FooterTab>
-                        <Button onPress={this.onContinuePress.bind(this)}>
-                            <Text>Continue</Text>
-                        </Button>
+                        {this.renderButton()}
                     </FooterTab>
                 </Footer>
             </Container>            
@@ -196,9 +206,9 @@ const searchStyles = {
 };
 
 const mapStateToProps = state => {
-    const { agents } = state.newListing;
+    const { agents, loadingAgents } = state.newListing;
     const { locationAllowed } = state.globalSettings;
-    return { agents, locationAllowed };
+    return { agents, locationAllowed, loadingAgents };
 };
 
 export default connect(mapStateToProps, { getNearbyAgents, setMapPropertyAddress })(SellerLocation);

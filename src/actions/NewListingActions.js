@@ -8,6 +8,11 @@ import {
     SET_PROPERTY_ADDRESS,
     NEW_LISTING_UPDATE,
     UPDATE_ADDRESS_LINE,
+    FINISH_NEW_LISTING,
+    FETCH_NEARBY_AGENT,
+    NEARBY_AGENT_FETCH_FAILED,
+    SAVE_NEW_LISTING,
+    SAVE_NEW_LISTING_FAIL,
     SAVE_NEW_LISTING_SUCCESS
 } from './types';
 
@@ -16,37 +21,50 @@ const addressFields = 'street_number,route,locality,country,postal_code';
 export const getNearbyAgents = () => {
     return (dispatch) => {
         try {
+            dispatch({ type: FETCH_NEARBY_AGENT });
             firebase.auth().currentUser.getIdToken()
             .then(() => {
                 firebase.firestore().collection('parties').where('type', '==', 'agent')            
                 .onSnapshot(snapshot => {
                     // eslint-disable-next-line no-underscore-dangle                    
                     if (!snapshot._metadata.hasPendingWrites) {
-                        transformSnapshot(dispatch, snapshot);
+                        const data = transformSnapshot(dispatch, snapshot);
+                        dispatch({ type: NEARBY_AGENT_FETCH_SUCCESS, payload: data });    
                     }
-                }, err => console.log(err));
+                }, err => onFetchNearbyAgentFailed(err, dispatch));
             }
-            ).catch(err => console.log(err));            
+            ).catch(err => onFetchNearbyAgentFailed(err, dispatch));            
         } catch (err) {
-            console.log(err);
+            onFetchNearbyAgentFailed(err, dispatch);
         }         
     };
 };
 
+const onFetchNearbyAgentFailed = (err, dispatch) => {
+    dispatch({ type: NEARBY_AGENT_FETCH_FAILED });  
+    console.log(err);
+};
+
 export const finishNewListing = () => {
-    return { type: SAVE_NEW_LISTING_SUCCESS };
+    return { type: FINISH_NEW_LISTING };
 };
 
 export const saveNewListing = (instruction) => {
     return (dispatch) => {
-        firebase.auth().currentUser.getIdToken()
-            .then(() => {
-                firebase.firestore().collection('instructions')
-                .add(instruction)
+        try {
+            dispatch({ type: SAVE_NEW_LISTING });
+            firebase.auth().currentUser.getIdToken()
                 .then(() => {
-                    Actions.confirmation(); 
+                    firebase.firestore().collection('instructions')
+                    .add(instruction)
+                    .then(() => {
+                        dispatch({ type: SAVE_NEW_LISTING_SUCCESS });
+                        Actions.confirmation(); 
+                    });
                 });
-            });
+        } catch (err) {
+            dispatch({ type: SAVE_NEW_LISTING_FAIL });
+        }        
     };
 };
 
@@ -91,5 +109,5 @@ const transformSnapshot = (dispatch, snapshot) => {
     snapshot.forEach((doc) => {                   
         data.push({ ...doc.data(), uid: doc.id });
     });
-    dispatch({ type: NEARBY_AGENT_FETCH_SUCCESS, payload: data });    
+    return data;    
 };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Toast, Root, Container, Content, Header, Button, Form, Item, Input, Right, Text, Icon, Left, Body, Col, Grid, Title } from 'native-base';
+import { Toast, Root, Container, Content, Header, Button, Form, Item, Input, Right, Text, Icon, Left, Body, Col, Grid, Title, Spinner, FooterTab } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { queryLocationPermissions } from '../../actions';
 import { setPropertyAddress } from '../../actions/NewListingActions';
@@ -9,7 +9,8 @@ import { setPropertyAddress } from '../../actions/NewListingActions';
 class FindLocation extends Component {
     state={
         number: '',
-        postcode: ''
+        postcode: '',
+        loading: false
     }
    
     componentDidUpdate() {
@@ -20,6 +21,7 @@ class FindLocation extends Component {
 
     async postcodeLookup(postcode, streetNo) {    
         try {
+            this.loading = true;
             const pc = postcode.toUpperCase(); 
             this.setState({ postcode: pc });
             const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${streetNo},${postcode}&sensor=false&key=AIzaSyCoLf5U9Z3FKXzl1suWJQyLB1CrYlpddMs`;
@@ -29,9 +31,11 @@ class FindLocation extends Component {
             if (response.ok) {
                 const responseJson = await response.json(); 
                 if (responseJson.results.length > 0) {
+                    this.loading = false;
                     this.props.setPropertyAddress(streetNo, responseJson.results[0].address_components);
                     Actions.sellerLocation({ userLocation: responseJson.results[0].geometry.location }); 
                 } else {
+                    this.loading = false;
                     Toast.show({
                         text: 'Could not find address!',
                         textStyle: { color: 'white' },
@@ -40,9 +44,11 @@ class FindLocation extends Component {
                     });
                 }                         
             } else {
+                this.loading = false;
                 console.log(response);
             }          
         } catch (err) {
+            this.loading = false;
             console.log(err);
         }
     }
@@ -62,6 +68,26 @@ class FindLocation extends Component {
         } else {
             this.postcodeLookup(postcode, number);
         } 
+    }
+    renderButton() {
+        if (this.loading) {
+            return (
+                <Button disabled full>
+                    <Text>Lookup Postcode</Text>
+                    <Right>
+                        <Spinner style={{ paddingRight: 3 }} size='small' />
+                    </Right>
+                </Button>
+            );
+        }
+        return (
+            <Button full onPress={this.postcodeButtonPressed.bind(this)}>
+                <Text>Lookup Postcode</Text>
+                <Right>
+                    <Icon name='search' />
+                </Right>
+            </Button>
+        );
     }
     render() {
         return (
@@ -106,12 +132,8 @@ class FindLocation extends Component {
                             </Button>
                         </Col> 
                         <Col style={{ paddingLeft: 10 }}>
-                            <Button full onPress={this.postcodeButtonPressed.bind(this)}>
-                                <Text>Lookup Postcode</Text>
-                                <Right>
-                                    <Icon name='search' />
-                                </Right>
-                            </Button>
+                            {this.renderButton()}
+                           
                         </Col>
                     </Grid>
                 </Content>

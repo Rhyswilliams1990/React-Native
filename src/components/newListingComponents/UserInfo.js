@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, Form, Item, Input, Text, View, Button, FooterTab, Footer } from 'native-base';
+import { Container, Content, Form, Item, Input, Text, View, Button, FooterTab, Footer, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 import { onNewListingChange, saveNewListing } from '../../actions';
 
@@ -19,6 +19,22 @@ class UserInfo extends Component {
 
     onContinuePress() {        
         this.props.saveNewListing(this.props.instruction);
+    }
+
+    renderButton() {
+        if (this.props.savingListing) {
+            return (
+                <Button disabled>
+                    <Spinner size='large' />   
+                </Button> 
+            );    
+        }
+        
+        return (
+            <Button full onPress={this.onContinuePress.bind(this)}>
+                <Text>Continue</Text>    
+            </Button> 
+        );
     }
 
     render() {
@@ -87,9 +103,7 @@ class UserInfo extends Component {
                 </Content>
                 <Footer>
                     <FooterTab>
-                        <Button full onPress={this.onContinuePress.bind(this)}>
-                            <Text>Continue</Text>    
-                        </Button> 
+                        {this.renderButton()}
                     </FooterTab>
                 </Footer>
             </Container>
@@ -119,15 +133,16 @@ const mapStateToProps = state => {
         emailConfirmation, 
         phoneNumber, 
         password, 
-        passwordConfirmation } = state.newListing;
-
+        passwordConfirmation, 
+        savingListing } = state.newListing;
     return { forename, 
         surname, 
         email, 
         emailConfirmation, 
         phoneNumber, 
         password, 
-        passwordConfirmation, 
+        passwordConfirmation,
+        savingListing, 
         instruction: state.newListing };
 };
 
