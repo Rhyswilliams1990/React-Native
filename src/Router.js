@@ -53,7 +53,7 @@ const RouterComponent = () => {
                     />
                     <Scene
                         key="evaluation"
-                        component={Evaluation} 
+                        component={Evaluation}  
                     />
                     <Scene
                         key="contactPreferences"
@@ -65,7 +65,8 @@ const RouterComponent = () => {
                     />                        
                     <Scene
                         key="confirmation"
-                        component={Confirmation}                          
+                        component={Confirmation}   
+                                               
                     />
                     <Scene
                         key="findLocation"

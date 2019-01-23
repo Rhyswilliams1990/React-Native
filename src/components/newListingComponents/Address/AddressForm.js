@@ -11,7 +11,10 @@ import {
   Header, 
   Left, 
   Icon, 
-  Body } from 'native-base';
+  Body, 
+  FooterTab,
+  Footer,
+  Title } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { setPropertyLine } from '../../../actions/NewListingActions';
@@ -39,7 +42,7 @@ class AddressForm extends Component {
             <Icon onPress={() => Actions.pop()} name='arrow-back' />
           </Left>
           <Body>
-            <Text>Confirm Address</Text>
+            <Title>Confirm Address</Title>
           </Body>
         </Header>
         <Content>
@@ -82,9 +85,15 @@ class AddressForm extends Component {
             <Item last>
               <Textarea rowSpan={5} placeholder="Additional Directions" />
             </Item>            
-          </Form>   
-          <Button full><Text onPress={this.onContinuePress.bind(this)}>Continue</Text></Button>        
+          </Form>             
         </Content>
+        <Footer>
+            <FooterTab>
+                <Button full onPress={this.onContinuePress.bind(this)}>
+                    <Text>Continue</Text>    
+                </Button> 
+            </FooterTab>
+        </Footer>
       </Container>
     );
   }
