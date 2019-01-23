@@ -11,6 +11,7 @@ import {
     FINISH_NEW_LISTING,
     FETCH_NEARBY_AGENT,
     NEARBY_AGENT_FETCH_FAILED,
+    NEARBY_AGENT_FETCH_SNAPSHOT,
     SAVE_NEW_LISTING,
     SAVE_NEW_LISTING_FAIL,
     SAVE_NEW_LISTING_SUCCESS
@@ -24,14 +25,15 @@ export const getNearbyAgents = () => {
             dispatch({ type: FETCH_NEARBY_AGENT });
             firebase.auth().currentUser.getIdToken()
             .then(() => {
-                firebase.firestore().collection('parties').where('type', '==', 'agent')            
-                .onSnapshot(snapshot => {
-                    // eslint-disable-next-line no-underscore-dangle                    
-                    if (!snapshot._metadata.hasPendingWrites) {
-                        const data = transformSnapshot(dispatch, snapshot);
-                        dispatch({ type: NEARBY_AGENT_FETCH_SUCCESS, payload: data });    
-                    }
-                }, err => onFetchNearbyAgentFailed(err, dispatch));
+                const unsubscribe = firebase.firestore().collection('parties').where('type', '==', 'agent')            
+                    .onSnapshot(snapshot => {
+                        // eslint-disable-next-line no-underscore-dangle                    
+                        if (!snapshot._metadata.hasPendingWrites) {
+                            const data = transformSnapshot(dispatch, snapshot);
+                            dispatch({ type: NEARBY_AGENT_FETCH_SUCCESS, payload: data });    
+                        }
+                    }, err => onFetchNearbyAgentFailed(err, dispatch));
+                dispatch({ type: NEARBY_AGENT_FETCH_SNAPSHOT, payload: unsubscribe });    
             }
             ).catch(err => onFetchNearbyAgentFailed(err, dispatch));            
         } catch (err) {

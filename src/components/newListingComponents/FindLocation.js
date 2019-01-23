@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Toast, Root, Container, Content, Header, Button, Form, Item, Input, Right, Text, Icon, Left, Body, Col, Grid, Title, Spinner, FooterTab } from 'native-base';
+import { Toast, Root, Container, Content, Header, Button, Form, Item, Input, Right, Text, Icon, Left, Body, Col, Grid, Title, Spinner } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { queryLocationPermissions } from '../../actions';
 import { setPropertyAddress } from '../../actions/NewListingActions';

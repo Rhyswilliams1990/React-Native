@@ -9,7 +9,8 @@ import {
     SAVE_NEW_LISTING_SUCCESS,
     FINISH_NEW_LISTING,
     FETCH_NEARBY_AGENT,
-    NEARBY_AGENT_FETCH_FAILED
+    NEARBY_AGENT_FETCH_FAILED,
+    NEARBY_AGENT_FETCH_SNAPSHOT
  } from '../actions/types';
    
 
@@ -36,7 +37,8 @@ const INITIAL_STATE = {
         country: '',
         postal_code: ''       
     },
-    loadingAgents: false
+    loadingAgents: false,
+    unsubscribeNearby: null
 };
 
 // const INITIAL_STATE = {
@@ -68,6 +70,8 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {      
+        case NEARBY_AGENT_FETCH_SNAPSHOT: 
+            return { ...state, unsubscribeNearby: action.payload };
         case SAVE_NEW_LISTING_SUCCESS:
             return { ...state, savingListing: false };                
         case SAVE_NEW_LISTING_FAIL:

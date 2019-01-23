@@ -31,6 +31,7 @@ class SellerLocation extends Component {
     componentWillUnmount() {
         // eslint-disable-next-line no-undef
         navigator.geolocation.clearWatch(this.state.watchId);
+        this.props.unsubscribeNearby();
     }
 
     onContinuePress() {        
@@ -210,10 +211,9 @@ const searchStyles = {
 };
 
 const mapStateToProps = state => {
-    const { agents, loadingAgents } = state.newListing;
+    const { agents, loadingAgents, unsubscribeNearby } = state.newListing;
     const { locationAllowed } = state.globalSettings;
-    console.log(agents);
-    return { agents, locationAllowed, loadingAgents };
+    return { agents, locationAllowed, loadingAgents, unsubscribeNearby };
 };
 
 export default connect(mapStateToProps, { getNearbyAgents, setMapPropertyAddress })(SellerLocation);
