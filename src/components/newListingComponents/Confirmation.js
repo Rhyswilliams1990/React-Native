@@ -1,34 +1,55 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Content, Container } from 'native-base';
+import { View, Text, Button, Content, Container, CardItem, Body, Icon, Card, Item, Left, Thumbnail,Right, Label, Footer, FooterTab } from 'native-base';
+import { Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import { finishNewListing } from '../../actions';
+
+const thumbnail = require('../../../assets/images/garethavatar.jpeg');
+const image = require('../../../assets/images/congrats.jpg');
 
 class Confirmation extends Component {
+    finishNewListing() {  
+        this.props.finishNewListing();                       
+        Actions.existingListing({ type: 'reset' }); 
+    }
+
     render() {
         return (
             <Container>
                 <Content padder>
-                    <View style={styles.containerStyle}>
-                        <Text style={styles.textExclamation}>Congratulations {this.props.forename}</Text>
-                        <Text>Your agent will be in tough shortly about your {this.props.numberOfBedrooms} bedroom {this.props.propertyType} property.</Text>
-                        <Text>Thank you for choosing Local Link.</Text>      
-                        <View style={{ paddingTop: 30 }}>
-                            <Text>{this.props.address.street_number}</Text>    
-                            <Text>{this.props.address.route}</Text>    
-                            <Text>{this.props.address.locality}</Text>    
-                            <Text>{this.props.address.country}</Text>    
-                            <Text>{this.props.address.postal_code}</Text>    
-                        </View>                  
-                        {/* TODO: ADD AGENT CARD WHEN DESIGNED */}
-                         
-                    </View> 
-                    <Button full onPress={() => { Actions.existingListing({ type: 'reset' }); }}>
+                    <CardItem bordered>
+                        <Left>
+                        <Thumbnail source={thumbnail} />
+                            <Body>
+                                <Text>David Bloggs</Text>
+                                <Text note>+44 330 123456</Text>
+                            </Body>
+                        </Left>
+                        <Right>
+                            <View style={{ flexDirection: 'row' }}><Icon style={{ color: 'gold' }} name='star'/><Icon style={{ color: 'gold' }} name='star'/><Icon style={{ color: 'gold' }} name='star'/><Icon style={{ color: 'gold' }} name='star'/><Icon style={{ color: 'gold' }} name='star'/></View>
+                            <Item>
+                                <Label>55</Label>
+                                <Icon name='exchange' type='FontAwesome' />
+                            </Item>
+                            
+                        </Right>
+                    </CardItem>
+                    <CardItem bordered cardBody>
+                        <Image source={image} style={{height: 300, width: null, flex: 1}}/>
+                    </CardItem>
+                    <CardItem>
+                        <Text style={{ fontSize: 12, textAlign: 'center' }} >Your agent will be in tough shortly about your {this.props.numberOfBedrooms} bedroom {this.props.propertyType} property.</Text>   
+                    </CardItem>                   
+                </Content>
+                <Footer>
+                    <FooterTab>
+                        <Button full onPress={this.finishNewListing.bind(this)}>
                             <Text>Finish</Text>    
                         </Button> 
-                </Content>
+                    </FooterTab>
+                </Footer>
             </Container>
-            
-           
         );
     }
 }
@@ -42,15 +63,12 @@ const styles = {
         alignItems: 'center'
     },
     textExclamation: {
-        fontSize: 40,
-        color: 'green',
-        paddingBottom: 60,
-        paddingTop: 60
+        fontSize: 30,
+        color: 'green'
     }
 };
 
-const mapStateToProps = state => {
-    
+const mapStateToProps = state => {    
     const {
         address,
         forename,
@@ -65,4 +83,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(Confirmation);
+export default connect(mapStateToProps, { finishNewListing })(Confirmation);

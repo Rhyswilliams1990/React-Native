@@ -1,14 +1,15 @@
 /* eslint-disable no-param-reassign */
 import firebase from 'react-native-firebase';
+import { Actions } from 'react-native-router-flux';
 
 import {
     NEARBY_AGENT_FETCH_SUCCESS,
     SET_MAP_LOOKUP_PROPERTY_ADDRESS,
     SET_PROPERTY_ADDRESS,
     NEW_LISTING_UPDATE,
-    UPDATE_ADDRESS_LINE
+    UPDATE_ADDRESS_LINE,
+    SAVE_NEW_LISTING_SUCCESS
 } from './types';
-import { Actions } from 'react-native-router-flux';
 
 const addressFields = 'street_number,route,locality,country,postal_code';
 
@@ -29,6 +30,23 @@ export const getNearbyAgents = () => {
         } catch (err) {
             console.log(err);
         }         
+    };
+};
+
+export const finishNewListing = () => {
+    return { type: SAVE_NEW_LISTING_SUCCESS };
+};
+
+export const saveNewListing = (instruction) => {
+    return (dispatch) => {
+        firebase.auth().currentUser.getIdToken()
+            .then(() => {
+                firebase.firestore().collection('instructions')
+                .add(instruction)
+                .then(() => {
+                    Actions.confirmation(); 
+                });
+            });
     };
 };
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Toast, Root, Container, Content, Header, Button, Form, Item, Input, Right, Text, Icon, Left, Body, Col, Grid } from 'native-base';
+import { Toast, Root, Container, Content, Header, Button, Form, Item, Input, Right, Text, Icon, Left, Body, Col, Grid, Title } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { queryLocationPermissions } from '../../actions';
 import { setPropertyAddress } from '../../actions/NewListingActions';
@@ -72,7 +72,7 @@ class FindLocation extends Component {
                         <Icon onPress={() => Actions.pop()} name='arrow-back' />
                     </Left>
                     <Body>
-                        <Text>Find Address</Text>
+                        <Title>Find Address</Title>
                     </Body>
                 </Header>
                 <Content padder>

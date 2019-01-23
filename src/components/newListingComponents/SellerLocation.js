@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { Content, Container, Button, Text } from 'native-base';
+import { Content, Container, Button, Text, Footer, FooterTab } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -12,7 +12,10 @@ class SellerLocation extends Component {
         userLocation: null
     };
    
-    componentWillMount() {
+    componentWillMount() {   
+        //TODO: Add Loading     
+        this.props.getNearbyAgents();
+
         if (this.props.userLocation) {
             this.setState({ 
                 userLocation: 
@@ -29,13 +32,8 @@ class SellerLocation extends Component {
     }
 
     onContinuePress() {        
-        // TODO: Add animation over the map to as a 'loading', like a radar     
-        if (this.props.agents.length > 0) {
-            Actions.addressForm();
-        } else {
-            this.props.getNearbyAgents();
-        }        
-    }   
+        Actions.addressForm();          
+    } 
 
     onAgentPress(uid) {
         this[`markerref${uid}`].showCallout();
@@ -116,9 +114,9 @@ class SellerLocation extends Component {
             />                        
         );        
     }
-    
+   
     render() {
-        const { containerStyle, buttonViewStyle } = styles;
+        const { containerStyle } = styles;
         
         return (
             <Container>                
@@ -149,12 +147,14 @@ class SellerLocation extends Component {
                     <View style={containerStyle}>
                         { this.renderMapView()}       
                     </View>
-                    <View style={buttonViewStyle}>
+                </Content>
+                <Footer>
+                    <FooterTab>
                         <Button onPress={this.onContinuePress.bind(this)}>
                             <Text>Continue</Text>
                         </Button>
-                    </View>
-                </Content>
+                    </FooterTab>
+                </Footer>
             </Container>            
         );
     }
@@ -173,11 +173,6 @@ const styles = StyleSheet.create({
     },
     mapStyle: {
       ...StyleSheet.absoluteFillObject,
-    },
-    buttonViewStyle: {
-        position: 'absolute',
-        top: '80%', 
-        alignSelf: 'center'
     }
 });
 
