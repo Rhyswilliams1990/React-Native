@@ -17,8 +17,12 @@ class UserInfo extends Component {
         this.props.onNewListingChange({ prop, value });
     }
 
-    onContinuePress() {        
-        this.props.saveNewListing(this.props.instruction);
+    onContinuePress() {   
+        const instruction = this.props.instruction;
+        delete instruction.loadingAgents;
+        delete instruction.savingListing;
+        delete instruction.unsubscribeNearby;
+        this.props.saveNewListing(instruction);
     }
 
     renderButton() {

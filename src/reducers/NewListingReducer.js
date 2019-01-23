@@ -38,6 +38,7 @@ const INITIAL_STATE = {
         postal_code: ''       
     },
     loadingAgents: false,
+    savingListing: false,
     unsubscribeNearby: null
 };
 
