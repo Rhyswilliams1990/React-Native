@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
-import { View, Text, Button, Container, Content, Body, CardItem, Left, Icon, Right, Thumbnail, Label, Footer, FooterTab, Card } from 'native-base';
+import { View, Text, Button, Container, Content, Body, CardItem, Left, Icon, Right, Thumbnail, Footer, FooterTab } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
@@ -17,10 +17,10 @@ class Evaluation extends Component {
                             <Thumbnail source={thumbnail} large />
                         </Left>
                             <Body>
-                                <Text>4 Pen-Y-Fro</Text>                                
-                                <Text>Dunvant</Text>
-                                <Text>Swansea</Text>
-                                <Text>SA27TR</Text>
+                                <Text>{this.props.address.street_number} {this.props.address.route}</Text>                                
+                                <Text>{this.props.address.locality}</Text>
+                                <Text>{this.props.address.country}</Text>
+                                <Text>{this.props.address.postal_code}</Text>
                             </Body>
                         <Right>  
                             <View style={{ flexDirection: 'row', padding: 2 }}>
@@ -91,8 +91,8 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-    const { evaluation } = state.newListing;
-    return { evaluation };
+    const { evaluation, address } = state.newListing;
+    return { evaluation, address };
 };
 
 export default connect(mapStateToProps)(Evaluation);
