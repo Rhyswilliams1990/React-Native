@@ -1,11 +1,12 @@
 
 import { PermissionsAndroid } from 'react-native';
 
-import { LOCATION_ALLOWED } from './types';
+import { LOCATION_ALLOWED, QUERY_LOCATION_PERMISSION } from './types';
 
 export const queryLocationPermissions = () => {
     return (dispatch) => {
         try {        
+            dispatch({ type: QUERY_LOCATION_PERMISSION });
             PermissionsAndroid.request(
               PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
               {

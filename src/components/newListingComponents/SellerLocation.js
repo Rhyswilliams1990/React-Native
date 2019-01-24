@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { Content, Container, Button, Text, Footer, FooterTab } from 'native-base';
+import { Content, Container, Button, Text, Footer, FooterTab, Spinner } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -9,13 +9,13 @@ import { getNearbyAgents, setMapPropertyAddress } from '../../actions';
 
 class SellerLocation extends Component {  
     state = {
-        userLocation: null
+        userLocation: null,
+        watchId: null
     };
-   
-    componentWillMount() {   
-        //TODO: Add Loading     
-        this.props.getNearbyAgents();
 
+    componentDidMount() {
+        this.setState({ userLocation: null });
+        this.props.getNearbyAgents();
         if (this.props.userLocation) {
             this.setState({ 
                 userLocation: 
@@ -25,10 +25,13 @@ class SellerLocation extends Component {
                 } 
             });
         }
+        this.getUserLocation();
     }
 
-    componentDidMount() {
-       this.getUserLocation();
+    componentWillUnmount() {
+        // eslint-disable-next-line no-undef
+        navigator.geolocation.clearWatch(this.state.watchId);
+        this.props.unsubscribeNearby();
     }
 
     onContinuePress() {        
@@ -42,9 +45,10 @@ class SellerLocation extends Component {
     getUserLocation() {
         if (this.props.locationAllowed) {
             // eslint-disable-next-line no-undef
-            navigator.geolocation.watchPosition((location) => {
+            const watchId = navigator.geolocation.watchPosition((location) => {
                 this.setState({ userLocation: location.coords }); 
             });  
+            this.setState({ watchId });
         }
     }
 
@@ -85,6 +89,7 @@ class SellerLocation extends Component {
     
     renderMapView() {
         const { mapStyle } = styles;
+        
         if (this.state.userLocation) {
             return (
                 <MapView                
@@ -114,7 +119,19 @@ class SellerLocation extends Component {
             />                        
         );        
     }
-   
+    renderButton() {               
+        if (this.props.loadingAgents) {
+            return (
+            <Button disabled>
+                <Spinner size='large' />
+            </Button>);
+        }
+
+        return (
+            <Button onPress={this.onContinuePress.bind(this)}>
+                <Text>Continue</Text>
+            </Button>);
+    }
     render() {
         const { containerStyle } = styles;
         
@@ -150,9 +167,7 @@ class SellerLocation extends Component {
                 </Content>
                 <Footer>
                     <FooterTab>
-                        <Button onPress={this.onContinuePress.bind(this)}>
-                            <Text>Continue</Text>
-                        </Button>
+                        {this.renderButton()}
                     </FooterTab>
                 </Footer>
             </Container>            
@@ -196,9 +211,9 @@ const searchStyles = {
 };
 
 const mapStateToProps = state => {
-    const { agents } = state.newListing;
+    const { agents, loadingAgents, unsubscribeNearby } = state.newListing;
     const { locationAllowed } = state.globalSettings;
-    return { agents, locationAllowed };
+    return { agents, locationAllowed, loadingAgents, unsubscribeNearby };
 };
 
 export default connect(mapStateToProps, { getNearbyAgents, setMapPropertyAddress })(SellerLocation);

@@ -4,7 +4,14 @@ import {
     SET_PROPERTY_ADDRESS,
     NEW_LISTING_UPDATE,
     UPDATE_ADDRESS_LINE,
-    SAVE_NEW_LISTING_SUCCESS } from '../actions/types';
+    SAVE_NEW_LISTING,
+    SAVE_NEW_LISTING_FAIL,
+    SAVE_NEW_LISTING_SUCCESS,
+    FINISH_NEW_LISTING,
+    FETCH_NEARBY_AGENT,
+    NEARBY_AGENT_FETCH_FAILED,
+    NEARBY_AGENT_FETCH_SNAPSHOT
+ } from '../actions/types';
    
 
 const INITIAL_STATE = {
@@ -29,7 +36,10 @@ const INITIAL_STATE = {
         locality: '',
         country: '',
         postal_code: ''       
-    }
+    },
+    loadingAgents: false,
+    savingListing: false,
+    unsubscribeNearby: null
 };
 
 // const INITIAL_STATE = {
@@ -54,12 +64,22 @@ const INITIAL_STATE = {
 //         locality: 'Dunvant',
 //         country: 'Swansea',
 //         postal_code: 'SA27TR'       
-//     }
+//     },
+//     loadingAgents: false,
+//     savingListing: false
 // };
 
 export default (state = INITIAL_STATE, action) => {
-    switch (action.type) {     
+    switch (action.type) {      
+        case NEARBY_AGENT_FETCH_SNAPSHOT: 
+            return { ...state, unsubscribeNearby: action.payload };
         case SAVE_NEW_LISTING_SUCCESS:
+            return { ...state, savingListing: false };                
+        case SAVE_NEW_LISTING_FAIL:
+            return { ...state, savingListing: false };                
+        case SAVE_NEW_LISTING:
+                return { ...state, savingListing: true };       
+        case FINISH_NEW_LISTING:
             return INITIAL_STATE;
         case UPDATE_ADDRESS_LINE:
             return { ...state, address: { [action.payload.prop]: action.payload.value } };   
@@ -68,9 +88,13 @@ export default (state = INITIAL_STATE, action) => {
         case SET_PROPERTY_ADDRESS:            
             return { ...state, address: action.payload };    
         case SET_MAP_LOOKUP_PROPERTY_ADDRESS:            
-            return { ...state, mapLookupAddress: action.payload };    
+            return { ...state, mapLookupAddress: action.payload };                
+        case FETCH_NEARBY_AGENT:            
+            return { ...state, loadingAgents: true };          
         case NEARBY_AGENT_FETCH_SUCCESS:            
-            return { ...state, agents: action.payload };       
+            return { ...state, agents: action.payload, loadingAgents: false };  
+        case NEARBY_AGENT_FETCH_FAILED:
+            return { ...state, loadingAgents: false };     
         default:
             return state;
     }
