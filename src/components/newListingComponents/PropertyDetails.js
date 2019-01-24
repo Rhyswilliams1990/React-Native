@@ -14,7 +14,9 @@ import {
     Header, 
     Body, 
     Title,
-    Left } from 'native-base';
+    Left, 
+    FooterTab,
+    Footer } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { onNewListingChange, getEvaluation } from '../../actions';
 
@@ -130,11 +132,15 @@ class PropertyDetails extends Component {
                                 placeholder='Reception Rooms' 
                             />
                         </Item>
-                    </Form>                    
-                    <Button full onPress={this.onContinuePress.bind(this)}>
-                        <Text>Continue</Text>
-                    </Button>    
+                    </Form>    
                 </Content>
+                <Footer>
+                    <FooterTab>
+                        <Button full onPress={this.onContinuePress.bind(this)}>
+                            <Text>Continue</Text>
+                        </Button>  
+                    </FooterTab>
+                </Footer>
             </Container>
         );
     }

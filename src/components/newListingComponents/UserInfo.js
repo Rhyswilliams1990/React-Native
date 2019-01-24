@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Container, Content, Form, Item, Input, Text, View, Button } from 'native-base';
-import { Actions } from 'react-native-router-flux';
+import { Container, Content, Form, Item, Input, Text, View, Button, FooterTab, Footer, Spinner } from 'native-base';
 import { connect } from 'react-redux';
-import { onNewListingChange } from '../../actions';
+import { onNewListingChange, saveNewListing } from '../../actions';
 
 const FORENAME_FIELD = 'forename';
 const SURNAME_FIELD = 'surname';
@@ -16,6 +15,30 @@ class UserInfo extends Component {
 
     onValueChange(prop, value) {
         this.props.onNewListingChange({ prop, value });
+    }
+
+    onContinuePress() {   
+        const instruction = this.props.instruction;
+        delete instruction.loadingAgents;
+        delete instruction.savingListing;
+        delete instruction.unsubscribeNearby;
+        this.props.saveNewListing(instruction);
+    }
+
+    renderButton() {
+        if (this.props.savingListing) {
+            return (
+                <Button disabled>
+                    <Spinner size='large' />   
+                </Button> 
+            );    
+        }
+        
+        return (
+            <Button full onPress={this.onContinuePress.bind(this)}>
+                <Text>Continue</Text>    
+            </Button> 
+        );
     }
 
     render() {
@@ -80,11 +103,13 @@ class UserInfo extends Component {
                                 value={this.props.passwordConfirmation} 
                             />
                         </Item>
-                    </Form>
-                    <Button full onPress={() => { Actions.confirmation(); }}>
-                        <Text>Continue</Text>    
-                    </Button> 
+                    </Form>                   
                 </Content>
+                <Footer>
+                    <FooterTab>
+                        {this.renderButton()}
+                    </FooterTab>
+                </Footer>
             </Container>
 
         );        
@@ -112,15 +137,17 @@ const mapStateToProps = state => {
         emailConfirmation, 
         phoneNumber, 
         password, 
-        passwordConfirmation } = state.newListing;
-
+        passwordConfirmation, 
+        savingListing } = state.newListing;
     return { forename, 
         surname, 
         email, 
         emailConfirmation, 
         phoneNumber, 
         password, 
-        passwordConfirmation };
+        passwordConfirmation,
+        savingListing, 
+        instruction: state.newListing };
 };
 
-export default connect(mapStateToProps, { onNewListingChange })(UserInfo);
+export default connect(mapStateToProps, { onNewListingChange, saveNewListing })(UserInfo);
