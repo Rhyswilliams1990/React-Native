@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { 
     Container, 
     Content, 
@@ -12,19 +13,32 @@ import {
     Text, 
     Item, 
     Input,
-    Button
+    Button,
+    Title,
+    Left,
+    Icon,
+    Right
 } from 'native-base';
-import { newCommunicationUpdate } from '../../actions';
+import { newCommunicationUpdate, clearCommunicationScreen } from '../../actions';
 
-class BeginConversationForm extends Component {
+
+class BeginCommunicationForm extends Component {    
+    componentDidMount() {
+        this.props.clearCommunicationScreen();
+    }
+    
     render() {
         return (
             <Container>
                 <Content>
                     <Header>
-                        <Body>
-                            <Text>New Communication</Text>
+                        <Left style={{ flex: 0 }}>
+                            <Icon onPress={() => Actions.pop()} name='arrow-back' />
+                        </Left>
+                        <Body style={{ flex: 1, paddingLeft: 45 }}>
+                            <Title>New Communication</Title>
                         </Body>
+                        <Right style={{ flex: 0 }} />
                     </Header>
                     <Form>
                         <Item>
@@ -36,6 +50,7 @@ class BeginConversationForm extends Component {
                                 onValueChange={value => 
                                     this.props.newCommunicationUpdate({ prop: 'category', value })}
                             >
+                                <Picker.Item label='Please select...' value='0' />
                                 <Picker.Item label="Floorplan" value="key0" />
                                 <Picker.Item label="General Query" value="key1" />
                                 <Picker.Item label="Legal" value="key2" />
@@ -51,6 +66,7 @@ class BeginConversationForm extends Component {
                                 onValueChange={value => 
                                     this.props.newCommunicationUpdate({ prop: 'to', value })}
                             >
+                                <Picker.Item label='Please select...' value='0' />
                                 <Picker.Item label="Gareth Williams" value="key0" />
                                 <Picker.Item label="Rhys Williams" value="key1" />
                                 <Picker.Item label="Steve Stevenson" value="key2" />
@@ -59,14 +75,18 @@ class BeginConversationForm extends Component {
                         <Item>
                             <Label style={styles.labelStyle}>Title</Label>
                             <Input 
+                                placeholder='Enter title...'
                                 onChangeText={value => 
                                     this.props.newCommunicationUpdate({ prop: 'title', value })}
                                 value={this.props.title}
                             />
                         </Item>
-                        <Item>
-                            <Label style={styles.labelStyle}>Message</Label>
+                        <Item stackedLabel>     
+                            <Label style={styles.labelStyle}>Message</Label>                      
                             <Input 
+                                placeholder='Hello! Could you help me...'
+                                style={{ height: 100, textAlignVertical: 'top' }}
+                                multiline
                                 onChangeText={value => 
                                     this.props.newCommunicationUpdate({ prop: 'message', value })}
                                 value={this.props.message}
@@ -75,7 +95,7 @@ class BeginConversationForm extends Component {
                         <View style={{ padding: 10, paddingTop: 50 }} >
                             <Button 
                                 block 
-                                primary
+                                info
                             >
                                 <Text>Start Communication</Text>
                             </Button>
@@ -90,7 +110,9 @@ class BeginConversationForm extends Component {
 const styles = {
     labelStyle: {
         width: 80, 
-        fontWeight: 'bold'
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlignVertical: 'top'
     }
 };
 
@@ -106,5 +128,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, { 
-    newCommunicationUpdate
-})(BeginConversationForm);
+    newCommunicationUpdate,
+    clearCommunicationScreen
+})(BeginCommunicationForm);

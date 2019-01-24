@@ -4,7 +4,7 @@ import LoginForm from './components/authComponents/LoginForm';
 import UserCreate from './components/authComponents/UserCreate';
 import Dashboard from './components/dashboardComponents/Dashboard';
 import MessengerForm from './components/messengerComponents/MessengerForm';
-import BeginConversationForm from './components/messengerComponents/BeginConversationForm';
+import BeginCommunicationForm from './components/messengerComponents/BeginCommunicationForm';
 import Landing from './components/Landing';
 import SellerLocation from './components/newListingComponents/SellerLocation';
 import AddressForm from './components/newListingComponents/Address/AddressForm';
@@ -84,7 +84,7 @@ const RouterComponent = () => {
                     />
                     <Scene 
                         key="beginConversation"
-                        component={BeginConversationForm}
+                        component={BeginCommunicationForm}
                     />
                 </Scene>
             </Scene>

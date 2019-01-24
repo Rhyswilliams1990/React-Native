@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { Text, ListItem, Body, Container, Header, Left, Right, Icon, Button } from 'native-base';
+import { 
+    Title, 
+    Left, 
+    ListItem, 
+    Body, 
+    Container, 
+    Header, 
+    Right, 
+    Icon, 
+    Button, 
+    Text,
+    Thumbnail
+} from 'native-base';
 import { Actions } from 'react-native-router-flux';
 //import { usersFetch } from '../actions';
 
@@ -10,18 +22,9 @@ class MessageList extends Component {
         
         this.state = {
             data: [
-                // { name: 'Viewing Request', header: true },
-                // { name: 'Amy - 14/01/2018 14:00', header: false },
-                // { name: 'Amy - 14/01/2018 15:00', header: false },
-                // { name: 'Amy - 15/01/2018 14:00', header: false },
-                // { name: 'Query', header: true },
-                // { name: 'Amy - Pricing', header: false },
-                // { name: 'Amy - Possible Coal Deposit', header: false },
-                // { name: 'Floor Plan Appointment', header: true },
-                // { name: 'Steve - 19/01/2018 13:00', header: false }
-                { name: 'Floor Plan Appointment', header: true },
-                { recipientUid: '6v4hs34lSqQqApTXGMukO6sfQuu1', name: 'Gareth', header: false },
-                { recipientUid: 'RfcLNywcfNf867RcFCbzdwwGKTu1', name: 'Agent Smith', header: false }
+                { name: 'Floor Plan', header: true },
+                { recipientUid: '6v4hs34lSqQqApTXGMukO6sfQuu1', name: 'Gareth', title: 'Initial Appointment Created', uri: 'https://www.pdslibrary.org/sites/www.pdslibrary.org/files/Images/slp2018/hillbilly%20science.jpg', header: false },
+                { recipientUid: 'RfcLNywcfNf867RcFCbzdwwGKTu1', name: 'Agent Smith', title: 'Referred by Gareth', uri: 'https://i.stack.imgur.com/mNaC3.jpg', header: false }
             ],
             stickyHeaderIndices: []
         };
@@ -53,13 +56,30 @@ class MessageList extends Component {
             );
         } else if (!item.header) {
             return (
-                <ListItem 
-                    style={{ marginLeft: 0 }}
-                    onPress={() => Actions.messengerForm({ user: item })}
-                >
+                // <ListItem 
+                //     style={{ marginLeft: 0 }}
+                //     onPress={() => Actions.messengerForm({ user: item })}
+                // >
+                //     <Body>
+                //         <Text>{item.name}</Text>
+                //     </Body>
+                // </ListItem>
+                <ListItem thumbnail>
+                    <Left>
+                        <Thumbnail source={{ uri: item.uri }} />
+                    </Left>
                     <Body>
-                        <Text>{item.name}</Text>
+                    <Text>{item.name}</Text>
+                        <Text note numberOfLines={1}>{item.title}</Text>
                     </Body>
+                    <Right>
+                        <Button 
+                            transparent
+                            onPress={() => Actions.messengerForm({ user: item })}
+                        >
+                            <Text>View</Text>
+                        </Button>
+                    </Right>
                 </ListItem>
             );
         }
@@ -69,8 +89,11 @@ class MessageList extends Component {
         return (
             <Container>
                 <Header>
+                    <Left>
+                        <Icon name='menu' />
+                    </Left>
                     <Body>
-                        <Text>Communications</Text>
+                        <Title>Communications</Title>
                     </Body>
                     <Right>
                         <Button 
