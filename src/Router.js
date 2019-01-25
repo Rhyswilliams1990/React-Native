@@ -30,7 +30,7 @@ const RouterComponent = () => {
                 </Scene>
                 
                 <Scene 
-                    initial
+                    
                     key="newListing"
                 >
                     <Scene 
@@ -73,7 +73,7 @@ const RouterComponent = () => {
                         component={FindLocation}    
                     />
                 </Scene>
-                <Scene key="existingListing">
+                <Scene  initial key="existingListing">
                     <Scene
                         key="dashboard"
                         component={Dashboard}

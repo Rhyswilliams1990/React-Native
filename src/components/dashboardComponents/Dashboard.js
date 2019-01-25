@@ -29,50 +29,51 @@ class Dashboard extends Component {
             <Container>
                 {this.renderScreen()}
                 <Footer>
-                    <FooterTab>
+                    <FooterTab style={styles.footerTabStyle}>
                         <Button 
-                            light 
+                            transparent 
                             onPress={() => this.setState({ buttonPressed: 'calendarForm' })}
-                            active={this.state.buttonPressed === 'calendarForm'}
                         >
                             <Icon 
+                                style={styles.iconStyle}
                                 name="calendar-multiple-check" 
                                 type="MaterialCommunityIcons" 
                             />
                         </Button>
                         <Button 
-                            light 
+                            transparent 
                             onPress={() => this.setState({ buttonPressed: 'messageList' })}
-                            active={this.state.buttonPressed === 'messageList'}
                         >
                             <Icon 
+                                style={styles.iconStyle}
                                 name="message-text-outline" 
                                 type="MaterialCommunityIcons" 
                             />
                         </Button>
                         <Button 
-                            light 
+                            transparent 
                             onPress={() => this.setState({ buttonPressed: 'homeForm' })} 
-                            active={this.state.buttonPressed === 'homeForm'}
                         >
                             <Icon 
+                                style={styles.iconStyle} 
                                 name="home" 
                                 type="MaterialCommunityIcons" 
                             />
                         </Button>
                         <Button 
-                            light 
+                            transparent 
                             onPress={() => this.setState({ buttonPressed: 'documentForm' })} 
-                            active={this.state.buttonPressed === 'documentForm'}
                         >
-                            <Icon name="text-document" type="Entypo" />
+                            <Icon 
+                               style={styles.iconStyle} name="text-document" type="Entypo" />
                         </Button>
                         <Button 
-                            light 
+                            transparent 
                             onPress={() => this.setState({ buttonPressed: 'offersForm' })} 
-                            active={this.state.buttonPressed === 'offersForm'}
+                            
                         >
-                            <Icon name="ios-swap" type="Ionicons" />
+                            <Icon 
+                                style={styles.iconStyle} name="ios-swap" type="Ionicons" />
                         </Button>
                     </FooterTab>
                 </Footer>
@@ -81,4 +82,21 @@ class Dashboard extends Component {
     }
 }
 
+const styles = {
+    iconStyle: {
+        color: '#27bfb3',
+        fontSize: 30
+    },
+    footerTabStyle: {
+        backgroundColor: 'white',
+        borderTopWidth: 2,
+        borderColor: '#ddd',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 1,
+
+    }
+};
 export default Dashboard;
