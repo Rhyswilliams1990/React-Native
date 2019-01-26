@@ -7,7 +7,9 @@ const INITIAL_STATE = {
     category: '',
     to: '',
     title: '',
-    message: ''
+	message: '',
+	communications: null,
+	unsuscribeCommunicationList: null
 };
 
 export default (state = INITIAL_STATE, action) => {

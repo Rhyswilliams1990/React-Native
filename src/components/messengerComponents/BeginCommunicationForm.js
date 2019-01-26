@@ -52,7 +52,7 @@ class BeginCommunicationForm extends Component {
                             >
                                 <Picker.Item label='Please select...' value='0' />
                                 <Picker.Item label="Floorplan" value="key0" />
-                                <Picker.Item label="General Query" value="key1" />
+                                <Picker.Item label="General" value="key1" />
                                 <Picker.Item label="Legal" value="key2" />
                                 <Picker.Item label="Offers" value="key3" />
                             </Picker>
