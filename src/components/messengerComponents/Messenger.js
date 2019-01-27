@@ -4,7 +4,7 @@ import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
 import { Header, Body, Right, Left, Icon, Container, Title, Thumbnail } from 'native-base';
 
-class MessengerForm extends React.Component {
+class Messenger extends React.Component {
   state = {
     messages: [],
   }
@@ -60,4 +60,4 @@ class MessengerForm extends React.Component {
   }
 }
 
-export default MessengerForm;
+export default Messenger;

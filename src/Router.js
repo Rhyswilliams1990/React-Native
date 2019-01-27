@@ -3,7 +3,7 @@ import { Scene, Router } from 'react-native-router-flux';
 import LoginForm from './components/authComponents/LoginForm';
 import UserCreate from './components/authComponents/UserCreate';
 import Dashboard from './components/dashboardComponents/Dashboard';
-import MessengerForm from './components/messengerComponents/MessengerForm';
+import Messenger from './components/messengerComponents/Messenger';
 import BeginCommunicationForm from './components/messengerComponents/BeginCommunicationForm';
 import Landing from './components/Landing';
 import SellerLocation from './components/newListingComponents/SellerLocation';
@@ -80,8 +80,8 @@ const RouterComponent = () => {
                         component={Dashboard}
                     />
                     <Scene 
-                        key="messengerForm"
-                        component={MessengerForm}
+                        key="messenger"
+                        component={Messenger}
                     />
                     <Scene 
                         key="beginConversation"

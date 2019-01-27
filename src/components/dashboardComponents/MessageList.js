@@ -64,7 +64,7 @@ class MessageList extends Component {
 				<Right>
 					<Button 
 						transparent
-						onPress={() => Actions.messengerForm({ user: item })}
+						onPress={() => Actions.messenger({ user: item })}
 					>
 						<Text>View</Text>
 					</Button>
