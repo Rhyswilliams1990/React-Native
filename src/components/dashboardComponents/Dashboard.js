@@ -31,7 +31,7 @@ class Dashboard extends Component {
                 <Footer>
                     <FooterTab>
                         <Button 
-                            light 
+                             
                             onPress={() => this.setState({ buttonPressed: 'calendarForm' })}
                             active={this.state.buttonPressed === 'calendarForm'}
                         >
@@ -41,7 +41,7 @@ class Dashboard extends Component {
                             />
                         </Button>
                         <Button 
-                            light 
+                             
                             onPress={() => this.setState({ buttonPressed: 'messageList' })}
                             active={this.state.buttonPressed === 'messageList'}
                         >
@@ -51,7 +51,7 @@ class Dashboard extends Component {
                             />
                         </Button>
                         <Button 
-                            light 
+                             
                             onPress={() => this.setState({ buttonPressed: 'homeForm' })} 
                             active={this.state.buttonPressed === 'homeForm'}
                         >
@@ -61,14 +61,13 @@ class Dashboard extends Component {
                             />
                         </Button>
                         <Button 
-                            light 
+                             
                             onPress={() => this.setState({ buttonPressed: 'documentForm' })} 
                             active={this.state.buttonPressed === 'documentForm'}
                         >
                             <Icon name="text-document" type="Entypo" />
                         </Button>
-                        <Button 
-                            light 
+                        <Button  
                             onPress={() => this.setState({ buttonPressed: 'offersForm' })} 
                             active={this.state.buttonPressed === 'offersForm'}
                         >

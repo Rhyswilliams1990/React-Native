@@ -25,7 +25,8 @@ export const getNearbyAgents = () => {
             dispatch({ type: FETCH_NEARBY_AGENT });
             firebase.auth().currentUser.getIdToken()
             .then(() => {
-                const unsubscribe = firebase.firestore().collection('parties').where('type', '==', 'agent')            
+				const unsubscribe = firebase.firestore()
+				.collection('parties').where('type', '==', 'agent')            
                     .onSnapshot(snapshot => {
                         // eslint-disable-next-line no-underscore-dangle                    
                         if (!snapshot._metadata.hasPendingWrites) {
@@ -74,6 +75,7 @@ export const setPropertyLine = (addressLine) => {
     return { type: UPDATE_ADDRESS_LINE, payload: addressLine };
 };
 
+// eslint-disable-next-line camelcase
 export const setPropertyAddress = (street_number, address) => { 
     const formattedAddress = { ...transformAddressObject(address), street_number };   
     return { type: SET_PROPERTY_ADDRESS, payload: formattedAddress };

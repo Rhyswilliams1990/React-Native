@@ -1,80 +1,115 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { Text, ListItem, Body } from 'native-base';
+import { connect } from 'react-redux';
+import { 
+    Title, 
+    Left, 
+    ListItem, 
+    Body, 
+    Container, 
+    Header, 
+    Right, 
+    Icon, 
+    Button, 
+    Text,
+    Thumbnail
+} from 'native-base';
 import { Actions } from 'react-native-router-flux';
-//import { usersFetch } from '../actions';
+import firebase from 'react-native-firebase';
+import { getCommunications } from '../../actions';
 
 class MessageList extends Component {
-    constructor() {
-        super();
-        
-        this.state = {
-            data: [
-                // { name: 'Viewing Request', header: true },
-                // { name: 'Amy - 14/01/2018 14:00', header: false },
-                // { name: 'Amy - 14/01/2018 15:00', header: false },
-                // { name: 'Amy - 15/01/2018 14:00', header: false },
-                // { name: 'Query', header: true },
-                // { name: 'Amy - Pricing', header: false },
-                // { name: 'Amy - Possible Coal Deposit', header: false },
-                // { name: 'Floor Plan Appointment', header: true },
-                // { name: 'Steve - 19/01/2018 13:00', header: false }
-                { name: 'Floor Plan Appointment', header: true },
-                { recipientUid: '6v4hs34lSqQqApTXGMukO6sfQuu1', name: 'Gareth', header: false },
-                { recipientUid: 'RfcLNywcfNf867RcFCbzdwwGKTu1', name: 'Agent Smith', header: false }
-            ],
-            stickyHeaderIndices: []
-        };
-    }
+	constructor() {
+		super();
+		this.state = {
+			loggedUser: firebase.auth().currentUser.uid
+		};
+	}
 
-    componentWillMount() {
-        const arr = [];
-        this.state.data.forEach(obj => {
-            if (obj.header) {
-                arr.push(this.state.data.indexOf(obj));
-            }
-        });
-        arr.push(0);
-        this.setState({
-            stickyHeaderIndices: arr
-        });
-    }
+	componentDidMount() {
+		if (this.props.unsuscribeCommunicationList === null) {
+			this.props.getCommunications();
+		}
+	}
+
+	componentWillUnmount() {
+		this.props.unsuscribeCommunicationList();
+	}
+
+	targetOrSourceAvatar = (owner) => {
+		if (owner === this.state.loggedUser) {
+			return 'targetAvatar';
+		} 
+		return 'ownerAvatar';	
+	}
+
+	targetOrSourceName = (owner) => {
+		if (owner === this.state.loggedUser) {
+			return 'targetName';
+		} 
+		return 'ownerName';	
+	}
 
     renderItem = ({ item }) => {
-        if (item.header) {
-            return (
-                <ListItem itemDivider>
-                    <Body>
-                        <Text style={{ fontWeight: 'bold' }}>
-                            {item.name}
-                        </Text>
-                    </Body>
-                </ListItem>
-            );
-        } else if (!item.header) {
-            return (
-                <ListItem 
-                    style={{ marginLeft: 0 }}
-                    onPress={() => Actions.messengerForm({ user: item })}
-                >
-                    <Body>
-                        <Text>{item.name}</Text>
-                    </Body>
-                </ListItem>
-            );
-        }
+		const owner = item.owner;
+		return (
+			<ListItem thumbnail>
+				<Left>
+					<Thumbnail source={{ uri: item[this.targetOrSourceAvatar(owner)] }} />
+				</Left>
+				<Body>
+					<Text>{item[this.targetOrSourceName(owner)]}</Text>
+					<Text note numberOfLines={1}>{item.category} - {item.title}</Text>
+				</Body>
+				<Right>
+					<Button 
+						transparent
+						onPress={() => Actions.messenger({ user: item })}
+					>
+						<Text>View</Text>
+					</Button>
+				</Right>
+			</ListItem>
+		);
     };
 
     render() {
         return (
-            <FlatList
-                data={this.state.data}
-                renderItem={this.renderItem}
-                keyExtractor={item => item.recipientUid || item.name}
-                stickyHeaderIndices={this.state.stickyHeaderIndices}
-            />
+            <Container>
+                <Header>
+                    <Left>
+                        <Icon name='menu' />
+                    </Left>
+                    <Body>
+                        <Title>Communications</Title>
+                    </Body>
+                    <Right>
+                        <Button 
+                            transparent
+                            onPress={() => Actions.beginConversation()}
+                        >
+                            <Icon name='message-plus' type='MaterialCommunityIcons' />
+                        </Button>
+                    </Right>
+                </Header>
+                <FlatList
+                    data={this.props.communications}
+                    renderItem={this.renderItem}
+                    keyExtractor={item => item.uid}
+                />
+            </Container>
         );
     }
 }
 
-export default MessageList;
+const mapStateToProps = state => {
+    const { 
+		unsuscribeCommunicationList,
+		communications
+	} = state.messenger;
+    return { communications, unsuscribeCommunicationList };
+};
+
+export default connect(mapStateToProps, { 
+    getCommunications
+ })(MessageList);

@@ -1,9 +1,10 @@
 import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import firebase from 'react-native-firebase';
-import { Header, Body, Text, Container } from 'native-base';
+import { Actions } from 'react-native-router-flux';
+import { Header, Body, Right, Left, Icon, Container, Title, Thumbnail } from 'native-base';
 
-class MessengerForm extends React.Component {
+class Messenger extends React.Component {
   state = {
     messages: [],
   }
@@ -19,7 +20,7 @@ class MessengerForm extends React.Component {
           user: {
             _id: this.props.user.recipientUid,
             name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any',
+            avatar: this.props.user.uri,
           },
         },
       ],
@@ -35,12 +36,17 @@ class MessengerForm extends React.Component {
   render() {
     return (
         <Container>
-            <Header style={{ backgroundColor: 'white' }}>
-                <Body>
-                    <Text>
-                        Floorplan
-                    </Text>
+            <Header>
+                <Left style={{ flex: 0 }}>
+                    <Icon onPress={() => Actions.pop()} name='arrow-back' />
+                </Left>
+                <Left style={{ paddingLeft: 15 }}>
+                    <Thumbnail style={{ paddingLeft: 40 }} source={{ uri: this.props.user.uri }} />
+                </Left>
+                <Body style={{ flex: 2, paddingLeft: 15 }}>
+                    <Title>{this.props.user.name}</Title>
                 </Body>
+                <Right style={{ flex: 0 }} />
             </Header>
             <GiftedChat
                 messages={this.state.messages}
@@ -54,4 +60,4 @@ class MessengerForm extends React.Component {
   }
 }
 
-export default MessengerForm;
+export default Messenger;
